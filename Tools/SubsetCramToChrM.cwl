@@ -33,7 +33,7 @@ inputs:
       position: 6
       prefix: -I
   contig_name:
-    type: String?
+    type: string?
     default: chrM
     inputBinding:
       position: 3
@@ -42,14 +42,12 @@ inputs:
     type: string
 
 outputs:
-  contamination_table:
+  chrM_bam:
     type: File
     outputBinding:
-      glob: $(inputs.outprefix).somatic.contamination.table
-  tumor_segmentation:
-    type: File
-    outputBinding:
-      glob: $(inputs.outprefix).somatic.segments.table
+      glob: $(inputs.outprefix).chrM.bam
+    secondaryFiles:
+      - .bai
   log:
     type: stderr
 
