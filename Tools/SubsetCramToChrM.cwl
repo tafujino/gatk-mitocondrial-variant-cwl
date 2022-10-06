@@ -15,6 +15,11 @@ hints:
 baseCommand: [ gatk ]
 
 inputs:
+  java_options:
+    type: string?
+    inputBinding:
+      position: 1
+      prefix: --java-options
   reference:
     type: File
     format: edam:format_1929
@@ -22,7 +27,7 @@ inputs:
       - .fai
       - ^.dict
     inputBinding:
-      position: 2
+      position: 3
       prefix: -R
   cram:
     type: File
@@ -30,13 +35,13 @@ inputs:
     secondaryFiles:
       - .crai
     inputBinding:
-      position: 6
+      position: 7
       prefix: -I
   contig_name:
     type: string?
     default: chrM
     inputBinding:
-      position: 3
+      position: 4
       prefix: -L
   outprefix:
     type: string
@@ -52,15 +57,15 @@ outputs:
     type: stderr
 
 arguments:
-  - position: 1
+  - position: 2
     valueFrom: PrintReads
-  - position: 4
-    prefix: --read-filter
-    valueFrom: MateOnSameContigOrNoMappedMateReadFilter
   - position: 5
     prefix: --read-filter
+    valueFrom: MateOnSameContigOrNoMappedMateReadFilter
+  - position: 6
+    prefix: --read-filter
     valueFrom: MateUnmappedAndUnmappedReadFilter
-  - position: 7
+  - position: 8
     prefix: -O
     valueFrom: $(inputs.outprefix).chrM.bam
 
