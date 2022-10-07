@@ -37,10 +37,10 @@ inputs:
     type: string
 
 outputs:
-  chrM_bam:
+  unmapped_bam:
     type: File
     outputBinding:
-      glob: $(inputs.outprefix).chrM.unmap.bam
+      glob: $(inputs.outprefix).chrM.unmapped.bam
   log:
     type: stderr
 
@@ -54,7 +54,7 @@ arguments:
   - position: 5
     prefix: OUTPUT=
     separate: false
-    valueFrom: $(inputs.outprefix).chrM.unmap.bam
+    valueFrom: $(inputs.outprefix).chrM.unmapped.bam
   - position: 6
     prefix: VALIDATION_STRINGENCY=
     separate: false
@@ -76,4 +76,4 @@ arguments:
     separate: false
     valueFrom: "false"
 
-stderr: $(inputs.outprefix).chrM.unmap.log
+stderr: $(inputs.outprefix).chrM.unmapped.log
