@@ -1,8 +1,8 @@
 #!/usr/bin/env cwl-runner
 
 class: CommandLineTool
-id: SubsetCramToChrM
-label: SubsetCramToChrM
+id: RevertSam
+label: RevertSam
 cwlVersion: v1.1
 
 $namespaces:
