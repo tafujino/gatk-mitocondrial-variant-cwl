@@ -36,7 +36,7 @@ requirements:
             FASTQ=/dev/stdout \
             INTERLEAVE=true \
             NON_PF=true | \
-          /usr/gitc/${BWA_COMMANDLINE} /dev/stdin - 2> >(tee ${OUTPUT_BAM_BASENAME}.bwa.stderr.log >&2) | \
+          /usr/gitc/${BWA_COMMANDLINE} /dev/stdin - 2> >(tee ${OUTPUT_BAM_BASENAME}.bwa.log >&2) | \
           java -Xms3000m -jar /usr/gitc/picard.jar \
             MergeBamAlignment \
             VALIDATION_STRINGENCY=SILENT \
@@ -100,9 +100,6 @@ inputs:
       - .bwt
       - .pac
       - .sa
-    inputBinding:
-      position: 3
-      prefix: -R
   bam:
     type: File
     format: edam:format_2572
@@ -121,7 +118,15 @@ outputs:
       glob: $(inputs.outprefix).bam
     secondaryFiles:
       - .bai
-  log:
+  metrics:
+    type: File
+    outputBinding:
+      glob: $(inputs.bam.nameroot) + ".metrics"
+  bwa_log:
+    type: File
+    outputBinding:
+      glob: $(inputs.outprefix).bwa.log
+  bam_log:
     type: stderr
 
-stderr: $(inputs.outprefix).log
+stderr: $(inputs.outprefix).bam.log
