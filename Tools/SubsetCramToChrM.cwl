@@ -45,6 +45,9 @@ inputs:
       prefix: -L
   outprefix:
     type: string
+# Although there exists --read-index option in the original implementation in WDL,
+# we did not add it to our CWL implementation. The path to the CRAM index is
+# inferred automatically by PrintReads command.
 
 outputs:
   chrM_bam:
