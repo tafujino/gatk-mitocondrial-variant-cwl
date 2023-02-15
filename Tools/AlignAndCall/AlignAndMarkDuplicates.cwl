@@ -18,10 +18,10 @@ requirements:
     envDef:
       BWA_VERSION: 0.7.15-r1140
       REF_FASTA: $(inputs.reference)
-      INPUT_BAM: $(inputs.bam)
+      INPUT_BAM: $(inputs.unmapped_bam)
       BWA_COMMANDLINE: $("bwa mem -K 100000000 -p -v 3 -t 2 -Y " + $(inputs.ref_fasta)) # need InlineJavascriptRequirement ?
       OUTPUT_BAM_BASENAME: $(inputs.outprefix)
-      METRICS_FILENAME: $(inputs.bam.nameroot) + ".metrics"
+      METRICS_FILENAME: $(inputs.unmapped_bam.nameroot) + ".metrics"
       READ_NAME_REGEX: $(inputs.read_name_regex)
   InitialWorkDirRequirement:
     listing:
@@ -100,7 +100,7 @@ inputs:
       - .bwt
       - .pac
       - .sa
-  bam:
+  unmapped_bam:
     type: File
     format: edam:format_2572
     secondaryFiles:
@@ -121,7 +121,7 @@ outputs:
   metrics:
     type: File
     outputBinding:
-      glob: $(inputs.bam.nameroot) + ".metrics"
+      glob: $(inputs.unmapped_bam.nameroot) + ".metrics"
   bwa_log:
     type: File
     outputBinding:
