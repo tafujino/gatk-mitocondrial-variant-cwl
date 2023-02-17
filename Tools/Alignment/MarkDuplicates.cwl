@@ -47,6 +47,10 @@ outputs:
       glob: md.bam
     secondaryFiles:
       - .bai
+  metrics:
+    type: File
+    outputBinding:
+      glob: $(outprefix).metrics
   log:
     type: stderr
 
