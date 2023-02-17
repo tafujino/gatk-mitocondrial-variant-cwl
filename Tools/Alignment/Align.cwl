@@ -89,7 +89,7 @@ outputs:
   bam:
     type: File
     outputBinding:
-      glob: $(inputs.outprefix).bam
+      glob: mba.bam
     secondaryFiles:
       - .bai
   bwa_log:
