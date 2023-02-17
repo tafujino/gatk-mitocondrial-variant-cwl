@@ -88,6 +88,7 @@ inputs:
 outputs:
   bam:
     type: File
+    format: edam:format_2572
     outputBinding:
       glob: mba.bam
     secondaryFiles:
