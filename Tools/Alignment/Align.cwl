@@ -95,9 +95,11 @@ outputs:
       - .bai
   bwa_log:
     type: File
+    doc: the standard error of BWA command
     outputBinding:
       glob: $(inputs.outprefix).bwa.log
   log:
+    doc: the entire standard error
     type: stderr
 
 stderr: $(inputs.outprefix).Align.log
