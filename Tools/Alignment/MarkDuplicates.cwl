@@ -54,6 +54,8 @@ outputs:
   log:
     type: stderr
 
+stderr: $(inputs.outprefix).MarkDuplicates.log
+
 arguments:
   - position: 2
     valueFrom: MarkDuplicates
@@ -85,5 +87,3 @@ arguments:
     prefix: ADD_PG_TAG_TO_READS
     separate: false
     valueFrom: "false"
-
-stderr: $(inputs.outprefix).MarkDuplicates.log
