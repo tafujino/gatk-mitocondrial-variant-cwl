@@ -21,15 +21,6 @@ inputs:
       position: 1
       shellQuote: false
     default: -Xmx2000m
-  reference:
-    type: File
-    format: edam:format_1929
-    secondaryFiles:
-      - .fai
-    inputBinding:
-      position: 5
-      prefix: REFERENCE_SEQUENCE=
-      shellQuote: false
   bam:
     type: File
     format: edam:format_2572
@@ -39,8 +30,17 @@ inputs:
       position: 3
       prefix: INPUT=
       shellQuote: false
-  read_length_for_optimization:
-    type: int
+  reference:
+    type: File
+    format: edam:format_1929
+    secondaryFiles:
+      - .fai
+    inputBinding:
+      position: 5
+      prefix: REFERENCE_SEQUENCE=
+      shellQuote: false
+  read_length:
+    type: int?
     inputBinding:
       position: 8
       prefix: READ_LENGTH=
