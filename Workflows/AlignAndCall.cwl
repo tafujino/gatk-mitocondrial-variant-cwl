@@ -47,6 +47,8 @@ inputs:
     format: edam:format_3003
     secondaryFiles:
       - .idx
+  max_read_length:
+    type: int?
 
 # WDL inputs
 #
@@ -72,7 +74,7 @@ inputs:
 steps:
   AlignToMt:
     label: AlignToMt
-    run: Alignment.cwl
+    run: AlignAndMarkDuplicates.cwl
     in:
       reference: mt_reference
       unmapped_bam: unmapped_bam
@@ -80,14 +82,24 @@ steps:
         valueFrom: $(self.unmapped_bam.nameroot).alignedToMt
     out: [bam, metrics, bwa_log, Align_log, MarkDuplicates_log, SortSam_log]
   AlignToShiftedMt:
-    label: Alignment.cwl
-    run: Alignment.cwl
+    label: AlignToShiftedMt
+    run: AlignAndMarkDuplicates.cwl
     in:
       reference: mt_shifted_reference
       unmapped_bam: unmapped_bam
       outprefix:
         valueFrom: $(self.unmapped_bam.nameroot).alignedToShiftedMt
     out: [bam, metrics, bwa_log, Align_log, MarkDuplicates_log, SortSam_log]
+  CollectWgsMetrics:
+    label: CollectWgsMetrics
+    run: ../Tools/AlignAndCall/CollectWgsMetrics.cwl
+    in:
+      bam: AlignToMt/bam
+      reference: mt_reference
+      read_length: max_read_length
+      coverage_cap:
+        default: 100000
+    out: []
 
 outputs:
   alignToMt_metrics:
