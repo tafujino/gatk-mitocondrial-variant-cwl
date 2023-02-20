@@ -78,16 +78,16 @@ steps:
       unmapped_bam: unmapped_bam
       outprefix:
         valueFrom: $(self.unmapped_bam.nameroot).alignedToMt
-    out: [bam, metrics, bwa_log, bam_log]
+    out: [bam, metrics, bwa_log, Align_log, MarkDuplicates_log, SortSam_log]
   AlignToShiftedMt:
     label: Alignment.cwl
-    run: ../Tools/Alignment/AlignAndMarkDuplicates.cwl
+    run: Alignment.cwl
     in:
       reference: mt_shifted_reference
       unmapped_bam: unmapped_bam
       outprefix:
         valueFrom: $(self.unmapped_bam.nameroot).alignedToShiftedMt
-    out: [bam, metrics, bwa_log, bam_log]
+    out: [bam, metrics, bwa_log, Align_log, MarkDuplicates_log, SortSam_log]
 
 outputs:
   alignToMt_metrics:
@@ -96,15 +96,27 @@ outputs:
   alignToMt_bwa_log:
     type: File
     outputSource: AlignToMt/bwa_log
-  alignToMt_bam_log:
+  alignToMt_Align_log:
     type: File
-    outputSource: AlignToMt/bam_log
+    outputSource: AlignToMt/Align_log
+  alignToMt_MarkDuplicates:
+    type: File
+    outputSource: AlignToMt/MarkDuplicates_log
+  alignToMt_SortSam:
+    type: File
+    outputSource: AlignToMt/SortSam_log
   alignToShiftedMt_metrics:
     type: File
     outputSource: AlignToShiftedMt/metrics
   alignToShiftedMt_bwa_log:
     type: File
     outputSource: AlignToShiftedMt/bwa_log
-  alignToShiftedMt_bam_log:
+  alignToShiftedMt_Align_log:
     type: File
-    outputSource: AlignToShiftedMt/bam_log
+    outputSource: AlignToShiftedMt/Align_log
+  alignToShiftedMt_MarkDuplicates_log:
+    type: File
+    outputSource: AlignToShiftedMt/MarkDuplicates_log
+  alignToShiftedMt_SortSam_log:
+    type: File
+    outputSource: AlignToShiftedMt/SortSam_log
