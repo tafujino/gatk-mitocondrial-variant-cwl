@@ -57,7 +57,7 @@ steps:
 outputs:
   bam:
     type: File
-    outputSource: Align/bam
+    outputSource: SortSam/out_bam
   metrics:
     type: File
     outputSource: MarkDuplicates/metrics
@@ -70,3 +70,6 @@ outputs:
   MarkDuplicates_log:
     type: File
     outputSource: MarkDuplicates/log
+  SortSam_log:
+    type: File
+    outputSource: SortSam/log
