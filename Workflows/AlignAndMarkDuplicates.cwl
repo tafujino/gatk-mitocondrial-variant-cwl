@@ -1,8 +1,8 @@
 #!/usr/bin/env cwl-runner
 
 class: Workflow
-id: Alignment
-label: Alignment
+id: AlignAndMarkDuplicates
+label: AlignAndMarkDuplicates
 cwlVersion: v1.1
 
 $namespaces:
