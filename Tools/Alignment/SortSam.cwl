@@ -24,8 +24,6 @@ inputs:
   in_bam:
     type: File
     format: edam:format_2572
-    secondaryFiles:
-      - .bai
     inputBinding:
       position: 3
       prefix: INPUT=
@@ -38,13 +36,7 @@ outputs:
     type: File
     format: edam:format_2572
     outputBinding:
-      glob: md.bam
-    secondaryFiles:
-      - .bai
-  metrics:
-    type: File
-    outputBinding:
-      glob: $(outprefix).metrics
+      glob: $(inputs.outprefix).bam
   log:
     type: stderr
 
