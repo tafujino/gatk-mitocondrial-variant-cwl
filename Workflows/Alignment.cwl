@@ -46,7 +46,13 @@ steps:
       in_bam: Align/bam
       outprefix: outprefix
     out: [out_bam, metrics, log]
-  # TODO: implement SortSam step
+  SortSam:
+    label: SortSam
+    run: ../Tools/Alignment/SortSam.cwl
+    in:
+      in_bam: MarkDuplicates/out_bam
+      outprefix: outprefix
+    out: [out_bam, log]
 
 outputs:
   bam:
