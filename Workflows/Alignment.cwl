@@ -27,7 +27,6 @@ inputs:
       - .bai
   read_name_regex:
     type: string?
-    default: ""
   outprefix:
     type: string
 
