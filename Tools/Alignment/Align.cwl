@@ -80,8 +80,6 @@ inputs:
   unmapped_bam:
     type: File
     format: edam:format_2572
-    secondaryFiles:
-      - .bai
   outprefix:
     type: string
 
