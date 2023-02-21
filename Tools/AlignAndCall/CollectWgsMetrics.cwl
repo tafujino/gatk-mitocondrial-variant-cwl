@@ -54,7 +54,7 @@ inputs:
       shellQuote: false
 
 outputs:
-  metrics:
+  coverage_metrics:
     type: File
     outputBinding:
       glob: $(inputs.bam.nameroot).metrics.txt
