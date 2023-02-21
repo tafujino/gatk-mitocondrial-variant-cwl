@@ -30,6 +30,12 @@ inputs:
       - .pac
       - .sa
       - ^.dict
+  blacklisted_sites:
+    doc: blacklist sites in BED format
+    type: File
+    format: edam:format_3003
+    secondaryFiles:
+      - .idx
   mt_shifted_reference:
     type: File
     format: edam:format_1929
@@ -41,12 +47,6 @@ inputs:
       - .pac
       - .sa
       - ^.dict
-  blacklisted_sites:
-    doc: blacklist sites in BED format
-    type: File
-    format: edam:format_3003
-    secondaryFiles:
-      - .idx
   max_read_length:
     type: int?
 
