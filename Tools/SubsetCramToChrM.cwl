@@ -50,10 +50,10 @@ inputs:
 # inferred automatically by PrintReads command.
 
 outputs:
-  chrM_bam:
+  subset_bam:
     type: File
     outputBinding:
-      glob: $(inputs.outprefix).chrM.bam
+      glob: $(inputs.outprefix).subset.bam
     secondaryFiles:
       - .bai
   log:
@@ -70,6 +70,6 @@ arguments:
     valueFrom: MateUnmappedAndUnmappedReadFilter
   - position: 8
     prefix: -O
-    valueFrom: $(inputs.outprefix).chrM.bam
+    valueFrom: $(inputs.outprefix).subset.bam
 
-stderr: $(inputs.outprefix).chrM.log
+stderr: $(inputs.outprefix).subset.log
