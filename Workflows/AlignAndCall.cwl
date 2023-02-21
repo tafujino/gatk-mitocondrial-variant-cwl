@@ -146,7 +146,7 @@ outputs:
   mean_coverage:
     type: File
     outputSource: MeanCoverage/mean_coverage
-  # The followings are not specified in the original WDL
+  # The followings are not listed in the original WDL
   AlignToMt_BWA_log:
     type: File
     outputSource: AlignToMt/bwa_log
