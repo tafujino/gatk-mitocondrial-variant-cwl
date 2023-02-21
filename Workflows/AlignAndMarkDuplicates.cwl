@@ -23,8 +23,6 @@ inputs:
   unmapped_bam:
     type: File
     format: edam:format_2572
-    secondaryFiles:
-      - .bai
   read_name_regex:
     type: string?
   outprefix:

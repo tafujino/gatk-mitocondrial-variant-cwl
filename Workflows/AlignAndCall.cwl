@@ -15,8 +15,6 @@ inputs:
   unmapped_bam:
     type: File
     format: edam:format_2572
-    secondaryFiles:
-      - .bai
   autosomal_coverage:
     type: float?
   mt_reference:
