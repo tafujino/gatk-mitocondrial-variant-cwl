@@ -37,6 +37,8 @@ outputs:
     format: edam:format_2572
     outputBinding:
       glob: $(inputs.outprefix).bam
+    secondaryFiles:
+      - .bai
   log:
     type: stderr
 
