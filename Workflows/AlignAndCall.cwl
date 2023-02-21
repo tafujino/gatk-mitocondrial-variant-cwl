@@ -89,7 +89,7 @@ steps:
       unmapped_bam: unmapped_bam
       outprefix:
         valueFrom: $(self.unmapped_bam.nameroot).alignedToShiftedMt
-    out: [bam, dupllicate_metrics, bwa_log, Align_log, MarkDuplicates_log, SortSam_log]
+    out: [bam, duplicate_metrics, bwa_log, Align_log, MarkDuplicates_log, SortSam_log]
   CollectWgsMetrics:
     label: CollectWgsMetrics
     run: ../Tools/AlignAndCall/CollectWgsMetrics.cwl
@@ -104,8 +104,8 @@ steps:
     label: MeanCoverage
     run: ../Tools/AlignAndCall/MeanCoverage.cwl
     in:
-      coverage_metrics: CollecWgsMetrics/coverage_metircs
-    out: [mean_coverage]
+      coverage_metrics: CollectWgsMetrics/coverage_metrics
+    out: [mean_coverage, log]
 
 # WDL
 #
@@ -140,14 +140,14 @@ outputs:
     outputSource: AlignToMt/duplicate_metrics
   coverage_metrics:
     type: File
-    outputSource: CollecWgsMetrics/coverage_metrics
+    outputSource: CollectWgsMetrics/coverage_metrics
   theoretical_sensitivity_metrics:
     type: File
-    outputSource: CollecWgsMetrics/theoretical_sensitivity
+    outputSource: CollectWgsMetrics/theoretical_sensitivity
   # contamination_metrics
   mean_coverage:
     type: File
-    CollecWgsMetrics
+    outputSource: MeanCoverage/mean_coverage
   # The followings are not specified in the original WDL
   AlignToMt_BWA_log:
     type: File
