@@ -31,8 +31,9 @@ inputs:
 outputs:
   mean_coverage:
     type: File
-    glob: mean_coverage.txt
-    outputEval: ${self[0].basename = inputs.coverage_metrics.nameroot + '.mean_coverage'; return self;}
+    outputBinding:
+      glob: mean_coverage.txt
+      outputEval: ${self[0].basename = inputs.coverage_metrics.nameroot + '.mean_coverage'; return self;}
   log:
     type: stderr
 
