@@ -57,11 +57,11 @@ outputs:
   coverage_metrics:
     type: File
     outputBinding:
-      glob: $(inputs.bam.nameroot).metrics.txt
+      glob: $(inputs.bam.nameroot).metrics
   theoretical_sensitivity:
     type: File
     outputBinding:
-      glob: $(inputs.bam.nameroot).theoretical_sensitivity.txt
+      glob: $(inputs.bam.nameroot).theoretical_sensitivity
   log:
     type: stderr
 
@@ -77,7 +77,7 @@ arguments:
   - position: 6
     prefix: OUTPUT=
     separate: false
-    valueFrom: $(inputs.bam.nameroot).metrics.txt
+    valueFrom: $(inputs.bam.nameroot).metrics
   - position: 7
     prefix: USE_FAST_ALGORITHM=
     separate: false
@@ -89,4 +89,4 @@ arguments:
   - position: 11
     prefix: THEORETICAL_SENSITIVITY_OUTPUT
     separate: false
-    valueFrom: $(inputs.bam.nameroot).theoretical_sensitivity.txt
+    valueFrom: $(inputs.bam.nameroot).theoretical_sensitivity
