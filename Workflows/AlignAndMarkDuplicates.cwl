@@ -45,7 +45,7 @@ steps:
     in:
       in_bam: Align/bam
       outprefix: outprefix
-    out: [out_bam, metrics, log]
+    out: [out_bam, duplicate_metrics, log]
   SortSam:
     label: SortSam
     run: ../Tools/Alignment/SortSam.cwl
@@ -60,12 +60,13 @@ outputs:
     outputSource: SortSam/out_bam
     secondaryFiles:
       - .bai
-  metrics:
+  duplicate_metrics:
     type: File
-    outputSource: MarkDuplicates/metrics
+    outputSource: MarkDuplicates/duplicate_metrics
   bwa_log:
     type: File
     outputSource: Align/bwa_log
+  # The followings are not specified in the original WDL
   Align_log:
     type: File
     outputSource: Align/log
