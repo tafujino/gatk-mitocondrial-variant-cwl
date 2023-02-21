@@ -80,7 +80,7 @@ steps:
       unmapped_bam: unmapped_bam
       outprefix:
         valueFrom: $(self.unmapped_bam.nameroot).alignedToMt
-    out: [bam, metrics, bwa_log, Align_log, MarkDuplicates_log, SortSam_log]
+    out: [bam, duplicate_metrics, bwa_log, Align_log, MarkDuplicates_log, SortSam_log]
   AlignToShiftedMt:
     label: AlignToShiftedMt
     run: AlignAndMarkDuplicates.cwl
@@ -89,7 +89,7 @@ steps:
       unmapped_bam: unmapped_bam
       outprefix:
         valueFrom: $(self.unmapped_bam.nameroot).alignedToShiftedMt
-    out: [bam, metrics, bwa_log, Align_log, MarkDuplicates_log, SortSam_log]
+    out: [bam, dupllicate_metrics, bwa_log, Align_log, MarkDuplicates_log, SortSam_log]
   CollectWgsMetrics:
     label: CollectWgsMetrics
     run: ../Tools/AlignAndCall/CollectWgsMetrics.cwl
@@ -99,36 +99,80 @@ steps:
       read_length: max_read_length
       coverage_cap:
         default: 100000
-    out: []
+    out: [coverage_metrics, theoretical_sensitivity, log]
+  MeanCoverage:
+    label: MeanCoverage
+    run: ../Tools/AlignAndCall/MeanCoverage.cwl
+    in:
+      coverage_metrics: CollecWgsMetrics/coverage_metircs
+    out: [mean_coverage]
+
+# WDL
+#
+#   output {
+#     File mt_aligned_bam = AlignToMt.mt_aligned_bam
+#     File mt_aligned_bai = AlignToMt.mt_aligned_bai
+#     File mt_aligned_shifted_bam = AlignToShiftedMt.mt_aligned_bam
+#     File mt_aligned_shifted_bai = AlignToShiftedMt.mt_aligned_bai
+#     File out_vcf = FilterLowHetSites.final_filtered_vcf
+#     File out_vcf_index = FilterLowHetSites.final_filtered_vcf_idx
+#     File input_vcf_for_haplochecker = SplitMultiAllelicsAndRemoveNonPassSites.vcf_for_haplochecker
+#     File duplicate_metrics = AlignToMt.duplicate_metrics
+#     File coverage_metrics = CollectWgsMetrics.metrics
+#     File theoretical_sensitivity_metrics = CollectWgsMetrics.theoretical_sensitivity
+#     File contamination_metrics = GetContamination.contamination_file
+#     Int mean_coverage = CollectWgsMetrics.mean_coverage
+#     String major_haplogroup = GetContamination.major_hg
+#     Float contamination = FilterContamination.contamination
+#   }
 
 outputs:
-  alignToMt_metrics:
+  mt_aligned_bam:
     type: File
-    outputSource: AlignToMt/metrics
-  alignToMt_bwa_log:
+    outputSource: AlignToMt/bam
+  mt_aligned_shifted_bam:
+    type: File
+    outputSource: AlignToShiftedMt/bam
+  # out_vcf
+  # input_vcf_for_haplochecker
+  duplicate_metrics:
+    type: File
+    outputSource: AlignToMt/duplicate_metrics
+  coverage_metrics:
+    type: File
+    outputSource: CollecWgsMetrics/coverage_metrics
+  theoretical_sensitivity_metrics:
+    type: File
+    outputSource: CollecWgsMetrics/theoretical_sensitivity
+  # contamination_metrics
+  mean_coverage:
+    type: File
+    CollecWgsMetrics
+  # The followings are not specified in the original WDL
+  AlignToMt_BWA_log:
     type: File
     outputSource: AlignToMt/bwa_log
-  alignToMt_Align_log:
+  AlignToMt_Align_log:
     type: File
     outputSource: AlignToMt/Align_log
-  alignToMt_MarkDuplicates:
+  AlignToMt_MarkDuplicates_log:
     type: File
     outputSource: AlignToMt/MarkDuplicates_log
-  alignToMt_SortSam:
+  AlignToMt_SortSam_log:
     type: File
     outputSource: AlignToMt/SortSam_log
-  alignToShiftedMt_metrics:
-    type: File
-    outputSource: AlignToShiftedMt/metrics
-  alignToShiftedMt_bwa_log:
+  AlignToShiftedMt_BWA_log:
     type: File
     outputSource: AlignToShiftedMt/bwa_log
-  alignToShiftedMt_Align_log:
+  AlignToShiftedMt_Align_log:
     type: File
     outputSource: AlignToShiftedMt/Align_log
-  alignToShiftedMt_MarkDuplicates_log:
+  AlignToShiftedMt_MarkDuplicates_log:
     type: File
     outputSource: AlignToShiftedMt/MarkDuplicates_log
-  alignToShiftedMt_SortSam_log:
+  AlignToShiftedMt_SortSam_log:
     type: File
     outputSource: AlignToShiftedMt/SortSam_log
+  CollecWgsMetrics_log:
+    type: File
+    outputSource: CollectWgsMetrics/log
