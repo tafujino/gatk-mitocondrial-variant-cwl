@@ -58,6 +58,8 @@ outputs:
   bam:
     type: File
     outputSource: SortSam/out_bam
+    secondaryFiles:
+      - .bai
   metrics:
     type: File
     outputSource: MarkDuplicates/metrics
