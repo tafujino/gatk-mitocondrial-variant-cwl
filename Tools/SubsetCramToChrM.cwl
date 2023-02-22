@@ -12,7 +12,7 @@ hints:
   - class: DockerRequirement
     dockerPull: broadinstitute/gatk:4.2.4.0
 
-baseCommand: [ gatk ]
+baseCommand: [gatk]
 
 inputs:
   java_options:

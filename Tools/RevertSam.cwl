@@ -15,7 +15,7 @@ hints:
 requirements:
   ShellCommandRequirement: {}
 
-baseCommand: [ java, -jar, /usr/gitc/picard.jar ]
+baseCommand: [java, -jar, /usr/gitc/picard.jar]
 
 inputs:
   java_options:

@@ -63,7 +63,7 @@ requirements:
             UNMAP_CONTAMINANT_READS=true \
             ADD_PG_TAG_TO_READS=false
 
-baseCommand: [ /bin/bash, Align.sh ]
+baseCommand: [/bin/bash, Align.sh]
 
 inputs:
   reference:

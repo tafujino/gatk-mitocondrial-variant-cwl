@@ -25,7 +25,7 @@ hints:
 #
 #    In CWL implementation, VCF is not compressed.
 
-baseCommand: [ gatk ]
+baseCommand: [gatk]
 
 inputs:
   java_options:

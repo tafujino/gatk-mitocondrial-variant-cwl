@@ -12,7 +12,7 @@ hints:
   - class: DockerRequirement
     dockerPull: us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.2-1552931386
 
-baseCommand: [ java, -jar, /usr/gitc/picard.jar ]
+baseCommand: [java, -jar, /usr/gitc/picard.jar]
 
 inputs:
   java_options:
