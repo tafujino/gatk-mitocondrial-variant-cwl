@@ -50,10 +50,10 @@ inputs:
     type: int?
   m2_extra_args:
     type: string?
+  shift_back_chain:
+    type: File
 
 # WDL inputs
-#
-#    File shift_back_chain
 #
 #    File? gatk_override
 #    String? gatk_docker_override
@@ -127,6 +127,21 @@ steps:
       m2_extra_args:
         valueFrom: $([inputs.m2_extra_args, "-L chrM:8025-9144"].filter(Boolean).join(" "))
     out: [raw_vcf, stats, log]
+  LiftoverVcf:
+    label: LiftoverVcf
+    run: ../Tools/AlignAndCall/LiftoverVcf.cwl
+    in:
+      shifted_vcf: CallShiftedMt/raw_vcf
+      reference: mt_reference
+      shift_back_chain: shift_back_chain
+    out: [shifted_back_vcf, rejected_vcf, log]
+  MergeVcfs:
+    label: MergeVcfs
+    run: ../Tools/AlignAndCall/MergeVcfs.cwl
+    in:
+      shifted_back_vcf: LiftoverVcf/shifted_back_vcf
+      vcf: CallMt/raw_vcf
+    out: [merged_vcf, log]
 
 # WDL
 #
