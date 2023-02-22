@@ -10,6 +10,7 @@ $namespaces:
 
 requirements:
   SubworkflowFeatureRequirement: {}
+  InlineJavascriptRequirement: {}
 
 inputs:
   unmapped_bam:
@@ -47,6 +48,8 @@ inputs:
       - ^.dict
   max_read_length:
     type: int?
+  m2_extra_args:
+    type: string?
 
 # WDL inputs
 #
@@ -104,6 +107,22 @@ steps:
     in:
       coverage_metrics: CollectWgsMetrics/coverage_metrics
     out: [mean_coverage, log]
+  callMt:
+    label: CallMt
+    run: ../Tools/AlignAndCall/M2.cwl
+    in:
+      # NOTE: May need to set java_options
+      reference: mt_reference
+      bam: AlignToMt/bam
+      m2_extra_args: $([inputs.m2_extra_args, "-L chrM:576-16024"].filter(Boolean).join(" "))
+  callShiftedMt:
+    label: CallShiftedMt
+    run: ../Tools/AlignAndCall/M2.cwl
+    in:
+      # NOTE: May need to set java_options
+      reference: mt_shifted_reference
+      bam: AlignToShifted_Mt/bam
+      m2_extra_args: $([inputs.m2_extra_args, "-L chrM:8025-9144"].filter(Boolean).join(" "))
 
 # WDL
 #
