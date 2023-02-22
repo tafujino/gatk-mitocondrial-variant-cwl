@@ -107,22 +107,26 @@ steps:
     in:
       coverage_metrics: CollectWgsMetrics/coverage_metrics
     out: [mean_coverage, log]
-  callMt:
+  CallMt:
     label: CallMt
     run: ../Tools/AlignAndCall/M2.cwl
     in:
       # NOTE: May need to set java_options
       reference: mt_reference
       bam: AlignToMt/bam
-      m2_extra_args: $([inputs.m2_extra_args, "-L chrM:576-16024"].filter(Boolean).join(" "))
-  callShiftedMt:
+      m2_extra_args:
+        valueFrom: $([inputs.m2_extra_args, "-L chrM:576-16024"].filter(Boolean).join(" "))
+    out: [raw_vcf, stats, log]
+  CallShiftedMt:
     label: CallShiftedMt
     run: ../Tools/AlignAndCall/M2.cwl
     in:
       # NOTE: May need to set java_options
       reference: mt_shifted_reference
-      bam: AlignToShifted_Mt/bam
-      m2_extra_args: $([inputs.m2_extra_args, "-L chrM:8025-9144"].filter(Boolean).join(" "))
+      bam: AlignToShiftedMt/bam
+      m2_extra_args:
+        valueFrom: $([inputs.m2_extra_args, "-L chrM:8025-9144"].filter(Boolean).join(" "))
+    out: [raw_vcf, stats, log]
 
 # WDL
 #
@@ -165,7 +169,9 @@ outputs:
   mean_coverage:
     type: File
     outputSource: MeanCoverage/mean_coverage
+  #
   # The followings are not listed in the original WDL
+  #
   AlignToMt_BWA_log:
     type: File
     outputSource: AlignToMt/bwa_log
@@ -193,3 +199,9 @@ outputs:
   CollecWgsMetrics_log:
     type: File
     outputSource: CollectWgsMetrics/log
+  CallMt_log:
+    type: File
+    outputSource: CallMt/log
+  CallShiftedMt_log:
+    type: File
+    outputSource: CallShiftedMt/log
