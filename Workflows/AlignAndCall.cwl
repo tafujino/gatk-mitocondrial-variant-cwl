@@ -111,21 +111,23 @@ steps:
     label: CallMt
     run: ../Tools/AlignAndCall/M2.cwl
     in:
-      # NOTE: May need to set java_options
+      # NOTE: may need to set java_options
       reference: mt_reference
       bam: AlignToMt/bam
       m2_extra_args:
-        valueFrom: $([inputs.m2_extra_args, "-L chrM:576-16024"].filter(Boolean).join(" "))
+        source: m2_extra_args
+        valueFrom: $([self.m2_extra_args, "-L chrM:576-16024"].filter(Boolean).join(" "))
     out: [raw_vcf, stats, log]
   CallShiftedMt:
     label: CallShiftedMt
     run: ../Tools/AlignAndCall/M2.cwl
     in:
-      # NOTE: May need to set java_options
+      # NOTE: may need to set java_options
       reference: mt_shifted_reference
       bam: AlignToShiftedMt/bam
       m2_extra_args:
-        valueFrom: $([inputs.m2_extra_args, "-L chrM:8025-9144"].filter(Boolean).join(" "))
+        source: m2_extra_args
+        valueFrom: $([self.m2_extra_args, "-L chrM:8025-9144"].filter(Boolean).join(" "))
     out: [raw_vcf, stats, log]
   LiftoverVcf:
     label: LiftoverVcf
@@ -141,7 +143,21 @@ steps:
     in:
       shifted_back_vcf: LiftoverVcf/shifted_back_vcf
       vcf: CallMt/raw_vcf
+      outprefix:
+        source: unmapped_bam
+        valueFrom: $(self.unmapped_bam.nameroot)
     out: [merged_vcf, log]
+  MergeStats:
+    label: MergeStats
+    run: ../Tools/AlignAndCall/MergeStats.cwl
+    in:
+      shifted_stats: CallShiftedMt/stats
+      non_shifted_stats: CallMt/stats
+      outprefix:
+        source: unmapped_bam
+        valueFrom: $(self.unmapped_bam.nameroot)
+    out:
+      [stats, log]
 
 # WDL
 #
