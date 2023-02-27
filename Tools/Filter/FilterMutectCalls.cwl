@@ -78,6 +78,8 @@ outputs:
     type: File
     outputBinding:
       glob: $(inputs.raw_vcf.nameroot).filtered.vcf
+    secondaryFiles:
+      - .idx
   log:
     type: stderr
 
