@@ -34,16 +34,18 @@ inputs:
       position: 4
       prefix: I=
       separate: false
+  outprefix:
+    type: string
 
 outputs:
   merged_vcf:
     type: File
     outputBinding:
-      glob: S(inputs.vcf.nameroot).merged.vcf
+      glob: S(inputs.outprefix).merged.vcf
   log:
     type: stderr
 
-stderr: $(inputs.vcf.nameroot).merged.log
+stderr: $(inputs.outprefix).merged.log
 
 arguments:
   - position: 2
@@ -51,4 +53,4 @@ arguments:
   - position: 4
     prefix: O=
     separate: false
-    valueFrom: S(inputs.vcf.nameroot).merged.vcf
+    valueFrom: S(inputs.outprefix).merged.vcf
