@@ -59,6 +59,8 @@ outputs:
   log:
     type: stderr
 
+stderr: $(inputs.outprefix).subset.log
+
 arguments:
   - position: 2
     valueFrom: PrintReads
@@ -71,5 +73,3 @@ arguments:
   - position: 8
     prefix: -O
     valueFrom: $(inputs.outprefix).subset.bam
-
-stderr: $(inputs.outprefix).subset.log

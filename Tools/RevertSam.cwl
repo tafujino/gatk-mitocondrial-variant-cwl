@@ -44,6 +44,8 @@ outputs:
   log:
     type: stderr
 
+stderr: $(inputs.outprefix).chrM.unmapped.log
+
 arguments:
   - position: 2
     valueFrom: RevertSam
@@ -75,5 +77,3 @@ arguments:
     prefix: RESTORE_ORIGINAL_QUALITIES=
     separate: false
     valueFrom: "false"
-
-stderr: $(inputs.outprefix).chrM.unmapped.log
