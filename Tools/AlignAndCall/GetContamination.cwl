@@ -20,11 +20,9 @@ requirements:
   InitialWorkDirRequirement:
     listing:
       - class: File
-        location: ./GetContamination.sh
+        location: GetContamination.sh
 
 baseCommand: [/bin/bash, GetContamination.sh]
-
-# or set shell script path using `location` and give $(inputs.script_path) as an argument of /bin/bash
 
 inputs:
   vcf:
