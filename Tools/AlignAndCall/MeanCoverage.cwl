@@ -17,10 +17,8 @@ requirements:
     listing:
       - entryname: metrics.txt
         entry: $(inputs.coverage_metrics)
-      - entryname: MeanCoverage.R
-        entry: |
-          df = read.table("metrics.txt",skip=6,header=TRUE,stringsAsFactors=FALSE,sep='\t',nrows=1)
-          write.table(floor(df[,"MEAN_COVERAGE"]), "mean_coverage.txt", quote=F, col.names=F, row.names=F)
+      - class: File
+        location: MeanCoverage.R
 
 baseCommand: [R, --vanillia, MeanCoverage.R]
 
