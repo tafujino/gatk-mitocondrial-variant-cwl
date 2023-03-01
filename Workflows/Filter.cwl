@@ -29,7 +29,7 @@ inputs:
     type: string?
   max_alt_allele_count:
     type: int
-  autosomal_coverage:
+  autosomal_coverage: # existing in the original WDL script but actually never used
     type: float?
   vaf_filter_threshold:
     type: float?
