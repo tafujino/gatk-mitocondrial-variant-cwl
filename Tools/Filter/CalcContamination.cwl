@@ -8,7 +8,7 @@ cwlVersion: v1.1
 requirements:
   InlineJavascriptRequirement: {}
 
-# In the original WDL implementation, contamination_major and contamination_minor are optional.
+# In the original WDL implementation, `contamination_major` and `contamination_minor` are optional.
 # However, we changed them to mandatory parameters since undefined values may cause incorrect calculation.
 # (Actually the values are always given from the upstream part of the workflow and there is no possibility
 # that these inputs are undefined.)
