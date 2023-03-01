@@ -64,7 +64,9 @@ outputs:
   bwa_log:
     type: File
     outputSource: Align/bwa_log
+  #
   # The followings are not listed in the original WDL
+  #
   Align_log:
     type: File
     outputSource: Align/log

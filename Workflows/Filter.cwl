@@ -98,7 +98,9 @@ outputs:
   contamination:
     type: float
     outputSource: CalcContamination/hc_contamination
+  #
   # The followings are not listed in the original WDL
+  #
   FilterMutectCalls_log:
     type: File
     outputSource: FilterMutectCalls/log
