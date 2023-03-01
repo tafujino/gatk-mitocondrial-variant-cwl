@@ -25,7 +25,8 @@ inputs:
     type: float?
 
 outputs:
-  max_contamination: int
+  max_contamination:
+    type: float
 
 expression: |
   ${
