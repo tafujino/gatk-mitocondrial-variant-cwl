@@ -38,6 +38,6 @@ expression: |
     } else {
       hc_contamination = 0.0
     };
-    var max_contamination = (inputs.verifyBamID != null && inputs.verifyBamID > hc_contamination) ? inputs.verifyBamID : hc_contamination;
+    var max_contamination = (inputs.verifyBamID !== null && inputs.verifyBamID > hc_contamination) ? inputs.verifyBamID : hc_contamination;
     return {"hc_contamination": hc_contamination, "max_contamination":  max_contamination};
   }
