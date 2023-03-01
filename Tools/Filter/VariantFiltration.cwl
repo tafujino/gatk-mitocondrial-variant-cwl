@@ -24,7 +24,7 @@ inputs:
     secondaryFiles:
       - .idx
     inputBinding:
-      position: 3
+      position: 2
       prefix: -V
   blacklisted_sites:
     doc: blacklist sites in BED format
@@ -33,7 +33,7 @@ inputs:
     secondaryFiles:
       - .idx
     inputBinding:
-      position: 6
+      position: 5
       prefix: --mask
   outprefix:
     type: string
@@ -51,13 +51,13 @@ outputs:
 stderr: $(inputs.outprefix).vcf.log
 
 arguments:
-  - position: 2
+  - position: 1
     valueFrom: VariantFiltration
-  - position: 4
+  - position: 3
     prefix: -O
     valueFrom: $(inputs.outprefix).vcf
-  - position: 5
+  - position: 4
     valueFrom: --apply-allele-specific-filters
-  - position: 7
+  - position: 6
     prefix: --mask-name
     valueFrom: blacklisted_site
