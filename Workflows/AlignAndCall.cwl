@@ -16,8 +16,11 @@ inputs:
   unmapped_bam:
     type: File
     format: edam:format_2572
+  # In the original WDL implementation, input parameter `autosomal_coverage` is optional.
+  # If it is defined `FilterNuMTs` is run (otherwise not run).
+  # In this CWL implementation, the parameter is mandatory and `FilterNuMTs` step is always executed.
   autosomal_coverage:
-    type: float?
+    type: float
   mt_reference:
     type: File
     format: edam:format_1929
@@ -48,10 +51,16 @@ inputs:
       - ^.dict
   max_read_length:
     type: int?
-  m2_extra_args:
-    type: string?
   shift_back_chain:
     type: File
+  m2_extra_args:
+    type: string?
+  m2_filter_extra_args:
+    type: string?
+  f_score_beta:
+    type: float?
+  verifyBamID:
+    type: float?
 
 # WDL inputs
 #
@@ -111,7 +120,7 @@ steps:
     label: CallMt
     run: ../Tools/AlignAndCall/M2.cwl
     in:
-      # NOTE: may need to set java_options
+      # NOTE: may need to set `java_options`
       reference: mt_reference
       bam: AlignToMt/bam
       m2_extra_args:
@@ -122,7 +131,7 @@ steps:
     label: CallShiftedMt
     run: ../Tools/AlignAndCall/M2.cwl
     in:
-      # NOTE: may need to set java_options
+      # NOTE: may need to set `java_options`
       reference: mt_shifted_reference
       bam: AlignToShiftedMt/bam
       m2_extra_args:
@@ -158,7 +167,20 @@ steps:
         valueFrom: $(self.unmapped_bam.nameroot)
     out:
       [stats, log]
-
+  InitialFilter:
+    label: InitialFilter
+    run: ../Workflows/Filter.cwl
+    in:
+      reference: mt_reference
+      raw_vcf: MergeVcfs/merged_vcf
+      raw_vcf_stats: MergeStats/stats
+      m2_extra_filtering_args: m2_filter_extra_args
+      max_alt_allele_count: 4
+      vaf_filter_threshold: 0
+      blacklisted_sites: blacklisted_sites
+      f_score_beta: f_score_beta
+      run_contamination: false
+      outprefix: $(outprefix).InitialFilter
 # WDL
 #
 #   output {
