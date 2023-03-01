@@ -1,8 +1,8 @@
 #!/usr/bin/env cwl-runner
 
 class: ExpressionTool
-id: MaxContamination
-label: MaxContamination
+id: CalcContamination
+label: CalcContamination
 cwlVersion: v1.1
 
 requirements:
@@ -25,6 +25,8 @@ inputs:
     type: float?
 
 outputs:
+  hc_contamination:
+    type: float
   max_contamination:
     type: float
 
@@ -37,5 +39,5 @@ expression: |
       hc_contamination = 0.0
     };
     var max_contamination = (inputs.verifyBamID != null && inputs.verifyBamID > hc_contamination) ? inputs.verifyBamID : hc_contamination;
-    return {"max_contamination":  max_contamination};
+    return {"hc_contamination": hc_contamination, "max_contamination":  max_contamination};
   }
