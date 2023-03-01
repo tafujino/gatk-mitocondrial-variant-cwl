@@ -177,10 +177,57 @@ steps:
       m2_extra_filtering_args: m2_filter_extra_args
       max_alt_allele_count: 4
       vaf_filter_threshold: 0
-      blacklisted_sites: blacklisted_sites
       f_score_beta: f_score_beta
       run_contamination: false
-      outprefix: $(outprefix).InitialFilter
+      blacklisted_sites: blacklisted_sites
+      outprefix: $(outprefix).initialFilter
+    out: [filtered_vcf, FilterMutectCalls_log, VariantFiltration_log]
+  SplitMultiAllelicSites:
+    label: SplitMultiAllelicSites
+    run: ../Tools/SplitMultiAllelicSites.cwl
+    in:
+      reference: mt_reference
+      in_vcf: InitialFilter/filtered_vcf
+    out: [split_vcf, log]
+  SelectVariants:
+    label: SelectVariants
+    run: ../Tools/AlignAndCall/SelectVariants.cwl
+    in:
+      in_vcf: SplitMultiAllelicSites/split_vcf
+    out: [out_vcf, log]
+  GetContamination:
+    label: GetContamination
+    run: ../Tools/SplitMultiAllelicSites.cwl
+    in:
+      vcf: SelectVariants/out_vcf
+    out:
+      - contamination
+      - hasContamination
+      - minor_hg
+      - major_hg
+      - minor_level
+      - major_level
+      - log
+  FilterContamination:
+    label: InitialFilter
+    run: ../Workflows/Filter.cwl
+    in:
+      reference: mt_reference
+      raw_vcf: InitialFilter/filtered_vcf
+      raw_vcf_stats: MergeStats/stats
+      m2_extra_filtering_args: m2_filter_extra_args
+      max_alt_allele_count: 4
+      vaf_filter_threshold: vaf_filter_threshold
+      f_score_beta: f_score_beta
+      run_contamination: true
+      hasContamination: GetContamination/hasContamination
+      contamination_major: GetContamination/major_level
+      contamination_minor: GetContamination/minor_level
+      verifyBamID: verifyBamID
+      blacklisted_sites: blacklisted_sites
+      outprefix: $(outprefix).filterContamination
+    out: [filtered_vcf, contamination, FilterMutectCalls_log, VariantFiltration_log]
+
 # WDL
 #
 #   output {
