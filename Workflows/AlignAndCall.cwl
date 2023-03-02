@@ -57,6 +57,8 @@ inputs:
     type: string?
   m2_filter_extra_args:
     type: string?
+  vaf_filter_threshold:
+    type: float?
   f_score_beta:
     type: float?
   verifyBamID:
@@ -175,12 +177,17 @@ steps:
       raw_vcf: MergeVcfs/merged_vcf
       raw_vcf_stats: MergeStats/stats
       m2_extra_filtering_args: m2_filter_extra_args
-      max_alt_allele_count: 4
-      vaf_filter_threshold: 0
+      max_alt_allele_count:
+        default: 4
+      vaf_filter_threshold:
+        default: 0
       f_score_beta: f_score_beta
-      run_contamination: false
+      run_contamination:
+        default: false
       blacklisted_sites: blacklisted_sites
-      outprefix: $(outprefix).initialFilter
+      outprefix:
+        source: unmapped_bam
+        valueFrom: $(self.unmapped_bam.nameroot).initialFilter
     out: [filtered_vcf, FilterMutectCalls_log, VariantFiltration_log]
   SplitMultiAllelicSites:
     label: SplitMultiAllelicSites
@@ -197,7 +204,7 @@ steps:
     out: [out_vcf, log]
   GetContamination:
     label: GetContamination
-    run: ../Tools/SplitMultiAllelicSites.cwl
+    run: ../Tools/AlignAndCall/GetContamination.cwl
     in:
       vcf: SelectVariants/out_vcf
     out:
@@ -216,17 +223,43 @@ steps:
       raw_vcf: InitialFilter/filtered_vcf
       raw_vcf_stats: MergeStats/stats
       m2_extra_filtering_args: m2_filter_extra_args
-      max_alt_allele_count: 4
+      max_alt_allele_count:
+        default: 4
       vaf_filter_threshold: vaf_filter_threshold
       f_score_beta: f_score_beta
-      run_contamination: true
+      run_contamination:
+        default: true
       hasContamination: GetContamination/hasContamination
       contamination_major: GetContamination/major_level
       contamination_minor: GetContamination/minor_level
       verifyBamID: verifyBamID
       blacklisted_sites: blacklisted_sites
-      outprefix: $(outprefix).filterContamination
+      outprefix:
+        source: unmapped_bam
+        valueFrom: $(self.unmapped_bam.nameroot).filterContamination
     out: [filtered_vcf, contamination, FilterMutectCalls_log, VariantFiltration_log]
+  FilterNuMTs:
+    label: FilterNuMTs
+    run: ../Tools/AlignAndCall/FilterNuMTs.cwl
+    in:
+      reference: mt_reference
+      in_vcf: FilterContamination/filtered_vcf
+      autosomal_coverage: autosomal_coverage
+      outprefix:
+        source: unmapped_bam
+        valueFrom: $(self.unmapped_bam.nameroot).filterNuMTs
+    out: [out_vcf, log]
+  FilterLowHetSites:
+    label: FilterLowHetSites
+    run: ../Tools/AlignAndCall/FilterLowHetSites.cwl
+    in:
+      reference: mt_reference
+      in_vcf: FilterNuMTs/out_vcf
+      outprefix:
+        source: unmapped_bam
+        valueFrom: $(self.unmapped_bam.nameroot).final
+    out: [out_vcf, log]
+
 
 # WDL
 #
@@ -254,7 +287,10 @@ outputs:
   mt_aligned_shifted_bam:
     type: File
     outputSource: AlignToShiftedMt/bam
-  # out_vcf
+  out_vcf:
+    type: File
+    outputSource:
+
   # input_vcf_for_haplochecker
   duplicate_metrics:
     type: File
