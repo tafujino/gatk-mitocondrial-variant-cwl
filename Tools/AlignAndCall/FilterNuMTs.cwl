@@ -38,21 +38,23 @@ inputs:
     inputBinding:
       position: 5
       prefix: --autosomal-coverage
+  outprefix:
+    type: string
 
 outputs:
   out_vcf:
     type: File
     format: edam:format_3016
     outputBinding:
-      glob: $(inputs.in_vcf.nameroot).numt_filtered.vcf
+      glob: $(inputs.outprefix).vcf
   log:
     type: stderr
 
-stderr: $(inputs.in_vcf.nameroot).numt_filtered.log
+stderr: $(inputs.outprefix).log
 
 arguments:
   - position: 1
     valueFrom: NuMTFilterTool
   - position: 4
     prefix: -O
-    valueFrom: $(inputs.in_vcf.nameroot).numt_filtered.vcf
+    valueFrom: $(inputs.outprefix).vcf

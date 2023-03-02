@@ -32,21 +32,23 @@ inputs:
       prefix: -V
   max_low_het_sites:
     type: int?
+  outprefix:
+    type: string
 
 outputs:
   out_vcf:
     type: File
     format: edam:format_1929
     outputBinding:
-      glob: $(inputs.in_vcf.nameroot).low_het_filtered.vcf
+      glob: $(inputs.outprefix).vcf
   log:
     type: stderr
 
-stderr: $(inputs.in_vcf.nameroot).low_het_filtered.log
+stderr: $(inputs.outprefix).log
 
 arguments:
   - position: 1
     valueFrom: MTLowHeteroplasmyFilterTool
   - position: 4
     prefix: -O
-    valueFrom: $(inputs.in_vcf.nameroot).low_het_filtered.vcf
+    valueFrom: $(inputs.outprefix).vcf
