@@ -8,19 +8,17 @@ cwlVersion: v1.1
 requirements:
   InlineJavascriptRequirement: {}
 
-# In the original WDL implementation, `contamination_major` and `contamination_minor` are optional.
-# However, we changed them to mandatory parameters since undefined values may cause incorrect calculation.
-# (Actually the values are always given from the upstream part of the workflow and there is no possibility
-# that these inputs are undefined.)
 inputs:
   run_contamination:
     type: boolean
   hasContamination:
     type: string?
+  # Although `contamination_major` and `contamination_major` are optional,
+  # they should be filled when `run_contamination` is true and `hasContamination` is "YES"
   contamination_major:
-    type: float
+    type: float?
   contamination_minor:
-    type: float
+    type: float?
   verifyBamID:
     type: float?
 
