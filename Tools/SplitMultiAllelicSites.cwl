@@ -38,20 +38,20 @@ outputs:
     type: File
     format: edam:format_1929
     outputBinding:
-      glob: $(inputs.outprefix).vcf
+      glob: $(inputs.in_vcf.nameroot).split.vcf
     secondaryFiles:
       - .idx
   log:
     type: stderr
 
-stderr: $(inputs.outprefix).log
+stderr: $(inputs.in_vcf.nameroot).split.log
 
 arguments:
   - position: 1
     valueFrom: LeftAlignAndTrimVariants
   - position: 4
     prefix: -O
-    valueFrom: $(inputs.outprefix).vcf
+    valueFrom: $(inputs.in_vcf.nameroot).split.vcf
   - position: 5
     valueFrom: --split-multi-allelics
   - position: 6
