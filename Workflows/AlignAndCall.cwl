@@ -17,8 +17,8 @@ inputs:
     type: File
     format: edam:format_2572
   # In the original WDL implementation, input parameter `autosomal_coverage` is optional.
-  # If it is defined, `FilterNuMTs` is run (otherwise not run).
-  # In this CWL implementation, the parameter is mandatory and `FilterNuMTs` step is always executed.
+  # If it is defined, task `FilterNuMTs` is run (otherwise not run).
+  # In this CWL implementation, the parameter is mandatory and step `FilterNuMTs` is always executed.
   autosomal_coverage:
     type: float
   mt_reference:
