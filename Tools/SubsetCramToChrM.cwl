@@ -54,13 +54,13 @@ outputs:
   subset_bam:
     type: File
     outputBinding:
-      glob: $(inputs.outprefix).subset.bam
+      glob: $(inputs.outprefix).chrM.bam
     secondaryFiles:
       - .bai
   log:
     type: stderr
 
-stderr: $(inputs.outprefix).subset.log
+stderr: $(inputs.outprefix).chrM.log
 
 arguments:
   - position: 2
@@ -73,4 +73,4 @@ arguments:
     valueFrom: MateUnmappedAndUnmappedReadFilter
   - position: 8
     prefix: -O
-    valueFrom: $(inputs.outprefix).subset.bam
+    valueFrom: $(inputs.outprefix).chrM.bam
