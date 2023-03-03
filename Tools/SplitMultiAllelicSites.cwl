@@ -30,8 +30,6 @@ inputs:
     inputBinding:
       position: 3
       prefix: -V
-  outprefix:
-    type: string
 
 outputs:
   split_vcf:
