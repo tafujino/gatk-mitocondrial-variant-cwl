@@ -237,6 +237,12 @@ outputs:
   #
   # The followings are not listed in the original WDL
   #
+  SubsetCramToChrM_log:
+    type: File
+    outputSource: SubsetCramToChrM/log
+  RevertSam_log:
+    type: File
+    outputSource: RevertSam/log
   AlignToMt_BWA_log:
     type: File
     outputSource: AlignAndCall/AlignToMt_BWA_log
@@ -288,7 +294,7 @@ outputs:
   InitialFilter_VariantFiltration_log:
     type: File
     outputSource: AlignAndCall/InitialFilter_VariantFiltration_log
-  SplitMultiAllelicSites_log:
+  AlignAndCall_SplitMultiAllelicSites_log:
     type: File
     outputSource: AlignAndCall/SplitMultiAllelicSites_log
   RemoveNonPassSites_log:
@@ -309,3 +315,15 @@ outputs:
   FilterLowHetSites_log:
     type: File
     outputSource: AlignAndCall/FilterLowHetSites_log
+  CollectHsMetricsNonControlRegion_log:
+    type: File
+    outputSource: CoverageAtEveryBase/CollectHsMetricsNonControlRegion_log
+  CollectHsMetricsControlRegionShifted_log:
+    type: File
+    outputSource: CoverageAtEveryBase/CollectHsMetricsControlRegionShifted_log
+  CoverageAtEveryBase_CombineTable_log:
+    type: File
+    outputSource: CoverageAtEveryBase/CombineTable_log
+  SplitMultiAllelicSites_log:
+    type: File
+    outputSource: SplitMultiAllelicSites/log
