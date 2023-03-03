@@ -36,7 +36,7 @@ steps:
       reference: reference
       unmapped_bam: unmapped_bam
       outprefix: outprefix
-    out: [bam, bwa_log, log]
+    out: [bam, BWA_log, log]
   MarkDuplicates:
     label: MarkDuplicates
     run: ../Tools/Alignment/MarkDuplicates.cwl
@@ -61,9 +61,9 @@ outputs:
   duplicate_metrics:
     type: File
     outputSource: MarkDuplicates/duplicate_metrics
-  bwa_log:
+  BWA_log:
     type: File
-    outputSource: Align/bwa_log
+    outputSource: Align/BWA_log
   #
   # The followings are not listed in the original WDL
   #
