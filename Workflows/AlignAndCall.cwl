@@ -67,6 +67,8 @@ inputs:
     type: float?
   verifyBamID:
     type: float?
+  max_low_het_sites:
+    type: int?
   max_read_length:
     doc: >-
       Read length used for optimization only. If this is too small
@@ -246,6 +248,7 @@ steps:
     in:
       reference: mt_reference
       in_vcf: FilterNuMTs/out_vcf
+      max_low_het_sites: max_low_het_sites
       outprefix:
         source: unmapped_bam
         valueFrom: $(self.unmapped_bam.nameroot).final
@@ -255,9 +258,13 @@ outputs:
   mt_aligned_bam:
     type: File
     outputSource: AlignToMt/bam
+    secondaryFiles:
+      - .bai
   mt_aligned_shifted_bam:
     type: File
     outputSource: AlignToShiftedMt/bam
+    secondaryFiles:
+      - .bai
   out_vcf:
     type: File
     outputSource: FilterLowHetSites/out_vcf
@@ -312,7 +319,7 @@ outputs:
   AlignToShiftedMt_SortSam_log:
     type: File
     outputSource: AlignToShiftedMt/SortSam_log
-  CollecWgsMetrics_log:
+  CollectWgsMetrics_log:
     type: File
     outputSource: CollectWgsMetrics/log
   MeanCoverage_log:
