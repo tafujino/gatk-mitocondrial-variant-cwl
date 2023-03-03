@@ -41,6 +41,8 @@ outputs:
     format: edam:format_1929
     outputBinding:
       glob: $(inputs.outprefix).vcf
+    secondaryFiles:
+      - .idx
   log:
     type: stderr
 
