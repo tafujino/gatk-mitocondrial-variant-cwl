@@ -93,9 +93,9 @@ outputs:
   CollectHsMetricsNonControlRegion_log:
     type: File
     outputSource: CollectHsMetricsNonControlRegion/log
-  CollectHsMetricsNonControlRegion_log:
+  CollectHsMetricsControlRegionShifted_log:
     type: File
-    outputSource: CollectHsMetricsNonControlRegion/log
+    outputSource: CollectHsMetricsControlRegionShifted/log
   CombineTable_log:
     type: File
     outputSource: CombineTable/log
