@@ -3,6 +3,7 @@
 class: Workflow
 id: AlignAndCall
 label: AlignAndCall
+doc: Takes in unmapped bam and outputs VCF of SNP/Indel calls on the mitochondria
 cwlVersion: v1.1
 
 $namespaces:
@@ -14,12 +15,13 @@ requirements:
 
 inputs:
   unmapped_bam:
+    doc: Unmapped and subset bam, optionally with original alignment (OA) tag
     type: File
     format: edam:format_2572
-  # In the original WDL implementation, input parameter `autosomal_coverage` is optional.
-  # If it is defined, task `FilterNuMTs` is run (otherwise not run).
-  # In this CWL implementation, the parameter is mandatory and step `FilterNuMTs` is always executed.
   autosomal_coverage:
+    # In the original WDL implementation, input parameter `autosomal_coverage` is optional.
+    # If it is defined, task `FilterNuMTs` is run (otherwise not run).
+    # In this CWL implementation, the parameter is mandatory and step `FilterNuMTs` is always executed.
     type: float
   mt_reference:
     type: File
@@ -39,6 +41,10 @@ inputs:
     secondaryFiles:
       - .idx
   mt_shifted_reference:
+    doc: >-
+      Shifted reference is used for calling the control region (edge of mitochondria
+      reference). This solves the problem that BWA doesn't support alignment to
+      circular contigs.
     type: File
     format: edam:format_1929
     secondaryFiles:
@@ -49,8 +55,6 @@ inputs:
       - .pac
       - .sa
       - ^.dict
-  max_read_length:
-    type: int?
   shift_back_chain:
     type: File
   m2_extra_args:
@@ -63,25 +67,12 @@ inputs:
     type: float?
   verifyBamID:
     type: float?
-
-# WDL inputs
-#
-#    File? gatk_override
-#    String? gatk_docker_override
-#    String? m2_extra_args
-#    String? m2_filter_extra_args
-#    Float? vaf_filter_threshold
-#    Float? f_score_beta
-#    Boolean compress_output_vcf
-#    Float? verifyBamID
-#    Int? max_low_het_sites
-#
-#    # Read length used for optimization only. If this is too small CollectWgsMetrics might fail, but the results are not
-#    # affected by this number. Default is 151.
-#    Int? max_read_length
-#
-#    #Optional runtime arguments
-#    Int? preemptible_tries
+  max_read_length:
+    doc: >-
+      Read length used for optimization only. If this is too small
+      CollectWgsMetrics might fail, but the results are not affected by
+      this number. Default is 151.
+    type: int?
 
 steps:
   AlignToMt:
@@ -92,7 +83,7 @@ steps:
       unmapped_bam: unmapped_bam
       outprefix:
         valueFrom: $(self.unmapped_bam.nameroot).alignedToMt
-    out: [bam, duplicate_metrics, bwa_log, Align_log, MarkDuplicates_log, SortSam_log]
+    out: [bam, duplicate_metrics, BWA_log, Align_log, MarkDuplicates_log, SortSam_log]
   AlignToShiftedMt:
     label: AlignToShiftedMt
     run: AlignAndMarkDuplicates.cwl
@@ -101,7 +92,7 @@ steps:
       unmapped_bam: unmapped_bam
       outprefix:
         valueFrom: $(self.unmapped_bam.nameroot).alignedToShiftedMt
-    out: [bam, duplicate_metrics, bwa_log, Align_log, MarkDuplicates_log, SortSam_log]
+    out: [bam, duplicate_metrics, BWA_log, Align_log, MarkDuplicates_log, SortSam_log]
   CollectWgsMetrics:
     label: CollectWgsMetrics
     run: ../Tools/AlignAndCall/CollectWgsMetrics.cwl
@@ -196,9 +187,9 @@ steps:
       reference: mt_reference
       in_vcf: InitialFilter/filtered_vcf
     out: [split_vcf, log]
-  SelectVariants:
-    label: SelectVariants
-    run: ../Tools/AlignAndCall/SelectVariants.cwl
+  RemoveNonPassSites:
+    label: RemoveNonPassSites
+    run: ../Tools/AlignAndCall/RemoveNonPassSites.cwl
     in:
       in_vcf: SplitMultiAllelicSites/split_vcf
     out: [out_vcf, log]
@@ -206,7 +197,7 @@ steps:
     label: GetContamination
     run: ../Tools/AlignAndCall/GetContamination.cwl
     in:
-      vcf: SelectVariants/out_vcf
+      vcf: RemoveNonPassSites/out_vcf
     out:
       - contamination
       - hasContamination
@@ -260,26 +251,6 @@ steps:
         valueFrom: $(self.unmapped_bam.nameroot).final
     out: [out_vcf, log]
 
-
-# WDL
-#
-#   output {
-#     File mt_aligned_bam = AlignToMt.mt_aligned_bam
-#     File mt_aligned_bai = AlignToMt.mt_aligned_bai
-#     File mt_aligned_shifted_bam = AlignToShiftedMt.mt_aligned_bam
-#     File mt_aligned_shifted_bai = AlignToShiftedMt.mt_aligned_bai
-#     File out_vcf = FilterLowHetSites.final_filtered_vcf
-#     File out_vcf_index = FilterLowHetSites.final_filtered_vcf_idx
-#     File input_vcf_for_haplochecker = SplitMultiAllelicsAndRemoveNonPassSites.vcf_for_haplochecker
-#     File duplicate_metrics = AlignToMt.duplicate_metrics
-#     File coverage_metrics = CollectWgsMetrics.metrics
-#     File theoretical_sensitivity_metrics = CollectWgsMetrics.theoretical_sensitivity
-#     File contamination_metrics = GetContamination.contamination_file
-#     Int mean_coverage = CollectWgsMetrics.mean_coverage
-#     String major_haplogroup = GetContamination.major_hg
-#     Float contamination = FilterContamination.contamination
-#   }
-
 outputs:
   mt_aligned_bam:
     type: File
@@ -289,9 +260,10 @@ outputs:
     outputSource: AlignToShiftedMt/bam
   out_vcf:
     type: File
-    outputSource:
-
-  # input_vcf_for_haplochecker
+    outputSource: FilterLowHetSites/out_vcf
+  input_vcf_for_haplochecker:
+    type: File
+    outputSource: RemoveNonPassSites/out_vcf
   duplicate_metrics:
     type: File
     outputSource: AlignToMt/duplicate_metrics
@@ -301,16 +273,24 @@ outputs:
   theoretical_sensitivity_metrics:
     type: File
     outputSource: CollectWgsMetrics/theoretical_sensitivity
-  # contamination_metrics
-  mean_coverage:
+  contamination_metrics:
     type: File
+    outputSource: GetContamination/contamination
+  mean_coverage:
+    type: int
     outputSource: MeanCoverage/mean_coverage
+  major_haplogroup:
+    type: string
+    outputSource: GetContamination/major_hg
+  contamination:
+    type: float
+    outputSource: FilterContamination/contamination
   #
   # The followings are not listed in the original WDL
   #
   AlignToMt_BWA_log:
     type: File
-    outputSource: AlignToMt/bwa_log
+    outputSource: AlignToMt/BWA_log
   AlignToMt_Align_log:
     type: File
     outputSource: AlignToMt/Align_log
@@ -322,7 +302,7 @@ outputs:
     outputSource: AlignToMt/SortSam_log
   AlignToShiftedMt_BWA_log:
     type: File
-    outputSource: AlignToShiftedMt/bwa_log
+    outputSource: AlignToShiftedMt/BWA_log
   AlignToShiftedMt_Align_log:
     type: File
     outputSource: AlignToShiftedMt/Align_log
@@ -335,9 +315,48 @@ outputs:
   CollecWgsMetrics_log:
     type: File
     outputSource: CollectWgsMetrics/log
+  MeanCoverage_log:
+    type: File
+    outputSource: MeanCoverage/log
   CallMt_log:
     type: File
     outputSource: CallMt/log
   CallShiftedMt_log:
     type: File
     outputSource: CallShiftedMt/log
+  LiftoverVcf_log:
+    type: File
+    outputSource: LiftoverVcf/log
+  MergeVcfs_log:
+    type: File
+    outputSource: MergeVcfs/log
+  MergeStats_log:
+    type: File
+    outputSource: MergeStats/log
+  InitialFilter_FilterMutectCalls_log:
+    type: File
+    outputSource: InitialFilter/FilterMutectCalls_log
+  InitialFilter_VariantFiltration_log:
+    type: File
+    outputSource: InitialFilter/VariantFiltration_log
+  SplitMultiAllelicSites_log:
+    type: File
+    outputSource: SplitMultiAllelicSites/log
+  RemoveNonPassSites_log:
+    type: File
+    outputSource: RemoveNonPassSites/log
+  GetContamination_log:
+    type: File
+    outputSource: GetContamination/log
+  FilterContamination_FilterMutectCalls_log:
+    type: File
+    outputSource: FilterContamination/FilterMutectCalls_log
+  FilterContamination_VariantFiltration_log:
+    type: File
+    outputSource: FilterContamination/VariantFiltration_log
+  FilterNuMTs_log:
+    type: File
+    outputSource: FilterNuMTs/log
+  FilterLowHetSites_log:
+    type: File
+    outputSource: FilterLowHetSites/log
