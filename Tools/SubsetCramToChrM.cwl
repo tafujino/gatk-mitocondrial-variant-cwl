@@ -3,6 +3,7 @@
 class: CommandLineTool
 id: SubsetCramToChrM
 label: SubsetCramToChrM
+doc: Subsets a whole genome CRAM to just Mitochondria reads
 cwlVersion: v1.1
 
 $namespaces:
@@ -45,9 +46,9 @@ inputs:
       prefix: -L
   outprefix:
     type: string
-# Although there exists --read-index option in the original implementation in WDL,
-# we did not add it to our CWL implementation. The path to the CRAM index is
-# inferred automatically by PrintReads command.
+  # Although there exists --read-index option in the original implementation in WDL,
+  # we did not add it to our CWL implementation. The path to the CRAM index is
+  # inferred automatically by PrintReads command.
 
 outputs:
   subset_bam:
