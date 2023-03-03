@@ -1,8 +1,8 @@
 #!/usr/bin/env cwl-runner
 
 class: CommandLineTool
-id: SelectVariants
-label: SelectVariants
+id: RemoveNonPassSites
+label: RemoveNonPassSites
 cwlVersion: v1.1
 
 $namespaces:
