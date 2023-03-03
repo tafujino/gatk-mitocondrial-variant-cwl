@@ -42,6 +42,8 @@ outputs:
     type: File
     outputBinding:
       glob: S(inputs.outprefix).merged.vcf
+    secondaryFiles:
+      - .idx
   log:
     type: stderr
 
