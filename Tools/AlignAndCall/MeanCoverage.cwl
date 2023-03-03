@@ -28,10 +28,11 @@ inputs:
 
 outputs:
   mean_coverage:
-    type: File
+    type: int
     outputBinding:
       glob: mean_coverage.txt
-      outputEval: ${self[0].basename = inputs.coverage_metrics.nameroot + '.mean_coverage'; return self;}
+      loadContents: true
+      outputEval: $(parseInt(self[0].contents))
   log:
     type: stderr
 
