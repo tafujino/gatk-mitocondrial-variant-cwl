@@ -68,7 +68,7 @@ steps:
     in:
       reference: mt_shifted_reference
       bam: input_bam_shifted_ref
-      interval_list: control_region_interval_list
+      interval_list: control_region_shifted_reference_interval_list
       outprefix:
         source: outprefix
         valueFrom: $(self.outprefix).control_region_shifted
@@ -78,8 +78,7 @@ steps:
     run: ../Tools/CoverageAtEveryBase/CombineTable.cwl
     in:
       non_control_region: CollectHsMetricsNonControlRegion/per_base_coverage
-      control_region_shifted: CollectHsMetricsNonControlRegionShifted/per_base_coverage
-      interval_list: control_region_shifted_reference_interval_list
+      control_region_shifted: CollectHsMetricsControlRegionShifted/per_base_coverage
       outprefix: outprefix
     out: [per_base_coverage, log]
 
