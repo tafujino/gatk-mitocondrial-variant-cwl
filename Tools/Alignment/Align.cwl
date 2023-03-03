@@ -53,7 +53,7 @@ outputs:
       glob: mba.bam
     secondaryFiles:
       - .bai
-  bwa_log:
+  BWA_log:
     type: File
     doc: the standard error of BWA command
     outputBinding:
