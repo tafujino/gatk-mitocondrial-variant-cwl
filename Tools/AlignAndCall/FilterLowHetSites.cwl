@@ -32,6 +32,10 @@ inputs:
       prefix: -V
   max_low_het_sites:
     type: int?
+    default: 3
+    inputBinding:
+      position: 5
+      prefix: --max-allowed-low-hets
   outprefix:
     type: string
 
