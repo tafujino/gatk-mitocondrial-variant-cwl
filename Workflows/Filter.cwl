@@ -93,6 +93,8 @@ outputs:
   filtered_vcf:
     type: File
     outputSource: VariantFiltration/out_vcf
+    secondaryFiles:
+      - .idx
   contamination:
     type: float
     outputSource: CalcContamination/hc_contamination
