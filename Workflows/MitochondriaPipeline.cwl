@@ -76,7 +76,7 @@ inputs:
     type: File
   control_region_shifted_reference_interval_list:
     type: File
-  File non_control_region_interval_list:
+  non_control_region_interval_list:
     type: File
   m2_extra_args:
     type: string?
@@ -121,17 +121,52 @@ steps:
       unmapped_bam: RevertSam/unmapped_bam
       autosomal_coverage: autosomal_coverage
       mt_reference: mt_reference
-      mt_shifted_reference: mt_shifted_reference
       blacklisted_sites: blacklisted_sites
+      mt_shifted_reference: mt_shifted_reference
+      shift_back_chain: shift_back_chain
+      m2_extra_args: m2_extra_args
+      m2_filter_extra_args: m2_filter_extra_args
+      vaf_filter_threshold: vaf_filter_threshold
+      f_score_beta: f_score_beta
+      verifyBamID: verifyBamID
+      max_low_het_sites: max_low_het_sites
+      max_read_length: max_read_length
     out:
       - mt_aligned_bam
       - mt_aligned_shifted_bam
-      # - out_vcf
-      # - input_vcf_for_haplochecker
+      - out_vcf
+      - input_vcf_for_haplochecker
       - duplicate_metrics
       - coverage_metrics
       - theoretical_sensitivity_metrics
+      - contamination_metrics
       - mean_coverage
+      - major_haplogroup
+      - contamination
+      - AlignToMt_BWA_log
+      - AlignToMt_Align_log
+      - AlignToMt_MarkDuplicates_log
+      - AlignToMt_SortSam_log
+      - AlignToShiftedMt_BWA_log
+      - AlignToShiftedMt_Align_log
+      - AlignToShiftedMt_MarkDuplicates_log
+      - AlignToShiftedMt_SortSam_log
+      - CollectWgsMetrics_log
+      - MeanCoverage_log
+      - CallMt_log
+      - CallShiftedMt_log
+      - LiftoverVcf_log
+      - MergeVcfs_log
+      - MergeStats_log
+      - InitialFilter_FilterMutectCalls_log
+      - InitialFilter_VariantFiltration_log
+      - SplitMultiAllelicSites_log
+      - RemoveNonPassSites_log
+      - GetContamination_log
+      - FilterContamination_FilterMutectCalls_log
+      - FilterContamination_VariantFiltration_log
+      - FilterNuMTs_log
+      - FilterLowHetSites_log
   CoverageAtEveryBase:
     label: CoverageAtEveryBase
     run: CoverageAtEveryBase.cwl
@@ -151,12 +186,11 @@ steps:
       - CombineTable_log
   SplitMultiAllelicSites:
     label: SplitMultiAllelicSites
-    run: SplitMultiAllelicSites.cwl
+    run: ../Tools/SplitMultiAllelicSites.cwl
     in:
       reference: mt_reference
       in_vcf: AlignAndCall/out_vcf
     out: [split_vcf, log]
-
 
 outputs:
   # In the original WDL implementation, a user can choose uncompressed or compressed VCFs as output format.
@@ -167,9 +201,15 @@ outputs:
   mt_aligned_bam:
     type: File
     outputSource: AlignAndCall/mt_aligned_bam
-  mt_aligned_shifted_bam:
+  out_vcf:
     type: File
-    outputSource: AlignAndCall/mt_aligned_shifted_bam
+    outputSource: AlignAndCall/out_vcf
+  split_vcf:
+    type: File
+    outputSource: SplitMultiAllelicSites/split_vcf
+  input_vcf_for_haplochecker:
+    type: File
+    outputSource: AlignAndCall/input_vcf_for_haplochecker
   duplicate_metrics:
     type: File
     outputSource: AlignAndCall/duplicate_metrics
@@ -179,6 +219,93 @@ outputs:
   theoretical_sensitivity_metrics:
     type: File
     outputSource: AlignAndCall/theoretical_sensitivity_metrics
-  mean_coverage:
+  contamination_metrics:
     type: File
+    outputSource: AlignAndCall/contamination_metrics
+  base_level_coverage_metrics:
+    type: File
+    outputSource: CoverageAtEveryBase/per_base_coverage
+  mean_coverage:
+    type: int
     outputSource: AlignAndCall/mean_coverage
+  major_haplogroup:
+    type: string
+    outputSource: AlignAndCall/major_haplogroup
+  contamination:
+    type: float
+    outputSource: AlignAndCall/contamination
+  #
+  # The followings are not listed in the original WDL
+  #
+  AlignToMt_BWA_log:
+    type: File
+    outputSource: AlignAndCall/AlignToMt_BWA_log
+  AlignToMt_Align_log:
+    type: File
+    outputSource: AlignAndCall/AlignToMt_Align_log
+  AlignToMt_MarkDuplicates_log:
+    type: File
+    outputSource: AlignAndCall/AlignToMt_MarkDuplicates_log
+  AlignToMt_SortSam_log:
+    type: File
+    outputSource: AlignAndCall/AlignToMt_SortSam_log
+  AlignToShiftedMt_BWA_log:
+    type: File
+    outputSource: AlignAndCall/AlignToShiftedMt_BWA_log
+  AlignToShiftedMt_Align_log:
+    type: File
+    outputSource: AlignAndCall/AlignToShiftedMt_Align_log
+  AlignToShiftedMt_MarkDuplicates_log:
+    type: File
+    outputSource: AlignAndCall/AlignToShiftedMt_MarkDuplicates_log
+  AlignToShiftedMt_SortSam_log:
+    type: File
+    outputSource: AlignAndCall/AlignToShiftedMt_SortSam_log
+  CollectWgsMetrics_log:
+    type: File
+    outputSource: AlignAndCall/CollectWgsMetrics_log
+  MeanCoverage_log:
+    type: File
+    outputSource: AlignAndCall/MeanCoverage_log
+  CallMt_log:
+    type: File
+    outputSource: AlignAndCall/CallMt_log
+  CallShiftedMt_log:
+    type: File
+    outputSource: AlignAndCall/CallShiftedMt_log
+  LiftoverVcf_log:
+    type: File
+    outputSource: AlignAndCall/LiftoverVcf_log
+  MergeVcfs_log:
+    type: File
+    outputSource: AlignAndCall/MergeVcfs_log
+  MergeStats_log:
+    type: File
+    outputSource: AlignAndCall/MergeStats_log
+  InitialFilter_FilterMutectCalls_log:
+    type: File
+    outputSource: AlignAndCall/InitialFilter_FilterMutectCalls_log
+  InitialFilter_VariantFiltration_log:
+    type: File
+    outputSource: AlignAndCall/InitialFilter_VariantFiltration_log
+  SplitMultiAllelicSites_log:
+    type: File
+    outputSource: AlignAndCall/SplitMultiAllelicSites_log
+  RemoveNonPassSites_log:
+    type: File
+    outputSource: AlignAndCall/RemoveNonPassSites_log
+  GetContamination_log:
+    type: File
+    outputSource: AlignAndCall/GetContamination_log
+  FilterContamination_FilterMutectCalls_log:
+    type: File
+    outputSource: AlignAndCall/FilterContamination_FilterMutectCalls_log
+  FilterContamination_VariantFiltration_log:
+    type: File
+    outputSource: AlignAndCall/FilterContamination_VariantFiltration_log
+  FilterNuMTs_log:
+    type: File
+    outputSource: AlignAndCall/FilterNuMTs_log
+  FilterLowHetSites_log:
+    type: File
+    outputSource: AlignAndCall/FilterLowHetSites_log
