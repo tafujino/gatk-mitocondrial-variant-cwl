@@ -20,7 +20,7 @@ inputs:
     inputBinding:
       position: 1
       prefix: --java-options
-  reference:
+  full_reference:
     type: File
     format: edam:format_1929
     secondaryFiles:
