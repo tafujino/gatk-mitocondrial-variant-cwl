@@ -75,7 +75,6 @@ inputs:
   shift_back_chain:
     type: File
     format: edam:format_3982
-    path:
   control_region_shifted_reference_interval_list:
     type: File
   non_control_region_interval_list:
