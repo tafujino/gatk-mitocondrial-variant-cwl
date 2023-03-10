@@ -3,10 +3,10 @@
 set -o pipefail
 set -e
 
-BWA_COMMANDLINE="bwa mem -K 100000000 -p -v 3 -t 2 -Y reference.fa"
+BWA_COMMANDLINE="bwa mem -K 100000000 -p -v 3 -t 2 -Y ${REFERENCE}"
 java -Xms5000m -jar /usr/gitc/picard.jar \
   SamToFastq \
-  INPUT=unmapped.bam \
+  INPUT=${UNMAPPED_BAM} \
   FASTQ=/dev/stdout \
   INTERLEAVE=true \
   NON_PF=true | \
@@ -19,9 +19,9 @@ java -Xms3000m -jar /usr/gitc/picard.jar \
   ATTRIBUTES_TO_REMOVE=NM \
   ATTRIBUTES_TO_REMOVE=MD \
   ALIGNED_BAM=/dev/stdin \
-  UNMAPPED_BAM=unmapped.bam \
+  UNMAPPED_BAM=${UNMAPPED_BAM} \
   OUTPUT=mba.bam \
-  REFERENCE_SEQUENCE=reference.fa \
+  REFERENCE_SEQUENCE=${REFERENCE} \
   PAIRED_RUN=true \
   SORT_ORDER="unsorted" \
   IS_BISULFITE_SEQUENCE=false \

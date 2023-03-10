@@ -15,15 +15,15 @@ hints:
 requirements:
   EnvVarRequirement:
     envDef:
+      REFERENCE: $(inputs.reference.basename)
+      UNMAPPED_BAM: $(inputs.unmapped_bam.basename)
       OUTPUT_BAM_BASENAME: $(inputs.outprefix)
   InitialWorkDirRequirement:
     listing:
       - class: File
         location: Align.sh
-      - entry: $(inputs.reference)
-        entryname: reference.fa
-      - entry: $(inputs.unmapped_bam)
-        entryname: unmapped.bam
+      - $(inputs.reference)
+      - $(inputs.unmapped_bam)
 
 baseCommand: [/bin/bash, Align.sh]
 
