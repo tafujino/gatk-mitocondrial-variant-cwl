@@ -45,7 +45,7 @@ outputs:
     type: File
     format: edam:format_3016
     outputBinding:
-      glob: S(inputs.outprefix).merged.vcf
+      glob: $(inputs.outprefix).merged.vcf
     secondaryFiles:
       - .idx
   log:
@@ -62,4 +62,4 @@ arguments:
   - position: 6
     prefix: O=
     separate: false
-    valueFrom: S(inputs.outprefix).merged.vcf
+    valueFrom: $(inputs.outprefix).merged.vcf
