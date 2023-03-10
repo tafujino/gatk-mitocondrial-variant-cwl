@@ -12,7 +12,7 @@ hints:
   - class: DockerRequirement
     dockerPull: us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.2-1552931386
 
-baseCommand: [java, -jar, /usr/gitc/picard.jar]
+baseCommand: [java]
 
 inputs:
   java_options:
@@ -24,7 +24,7 @@ inputs:
     type: File
     format: edam:format_3016
     inputBinding:
-      position: 3
+      position: 4
       prefix: I=
       separate: false
   reference:
@@ -34,14 +34,14 @@ inputs:
       - .fai
       - ^.dict
     inputBinding:
-      position: 5
+      position: 6
       prefix: R=
       separate: false
   shift_back_chain:
     type: File
     format: edam:format_3982
     inputBinding:
-      position: 6
+      position: 7
       prefix: R=
       separate: false
 
@@ -61,12 +61,15 @@ stderr: S(inputs.shifted_vcf.nameroot).shifted_back.log
 
 arguments:
   - position: 2
+    prefix: -jar
+    valueFrom: /usr/gitc/picard.jar
+  - position: 3
     valueFrom: LiftoverVcf
-  - position: 4
+  - position: 5
     prefix: O=
     separate: false
     valueFrom: S(inputs.shifted_vcf.nameroot).shifted_back.vcf
-  - position: 7
+  - position: 8
     prefix: REFECT=
     separate: false
     valueFrom: S(inputs.shifted_vcf.nameroot).rejected.vcf

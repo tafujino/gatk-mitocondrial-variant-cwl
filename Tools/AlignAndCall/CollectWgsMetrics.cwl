@@ -12,7 +12,7 @@ hints:
   - class: DockerRequirement
     dockerPull: us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.2-1552931386
 
-baseCommand: [java, -jar, /usr/gitc/picard.jar]
+baseCommand: [java]
 
 inputs:
   java_options:
@@ -27,7 +27,7 @@ inputs:
     secondaryFiles:
       - .bai
     inputBinding:
-      position: 3
+      position: 4
       prefix: INPUT=
       shellQuote: false
   reference:
@@ -36,20 +36,20 @@ inputs:
     secondaryFiles:
       - .fai
     inputBinding:
-      position: 5
+      position: 6
       prefix: REFERENCE_SEQUENCE=
       shellQuote: false
   read_length:
     type: int?
     inputBinding:
-      position: 8
+      position: 9
       prefix: READ_LENGTH=
       shellQuote: false
     default: 151
   coverage_cap:
     type: int?
     inputBinding:
-      position: 9
+      position: 10
       prefix: COVERAGE_CAP=
       shellQuote: false
 
@@ -69,24 +69,27 @@ stderr: $(inputs.bam.nameroot).metrics.log
 
 arguments:
   - position: 2
+    prefix: -jar
+    valueFrom: /usr/gitc/picard.jar
+  - position: 3
     valueFrom: CollectWgsMetrics
-  - position: 4
+  - position: 5
     prefix: VALIDATION_STRINGENCY=
     separate: false
     valueFrom: SILENT
-  - position: 6
+  - position: 7
     prefix: OUTPUT=
     separate: false
     valueFrom: $(inputs.bam.nameroot).metrics
-  - position: 7
+  - position: 8
     prefix: USE_FAST_ALGORITHM=
     separate: false
     valueFrom: "true"
-  - position: 10
+  - position: 11
     prefix: INCLUDE_BQ_HISTOGRAM=
     separate: false
     valueFrom: "true"
-  - position: 11
+  - position: 12
     prefix: THEORETICAL_SENSITIVITY_OUTPUT
     separate: false
     valueFrom: $(inputs.bam.nameroot).theoretical_sensitivity
