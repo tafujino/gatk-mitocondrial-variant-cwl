@@ -42,7 +42,7 @@ inputs:
 outputs:
   out_vcf:
     type: File
-    format: edam:format_1929
+    format: edam:format_3016
     outputBinding:
       glob: $(inputs.outprefix).vcf
     secondaryFiles:
