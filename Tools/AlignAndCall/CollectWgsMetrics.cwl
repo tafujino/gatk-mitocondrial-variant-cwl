@@ -90,6 +90,6 @@ arguments:
     separate: false
     valueFrom: "true"
   - position: 12
-    prefix: THEORETICAL_SENSITIVITY_OUTPUT
+    prefix: THEORETICAL_SENSITIVITY_OUTPUT=
     separate: false
     valueFrom: $(inputs.bam.nameroot).theoretical_sensitivity
