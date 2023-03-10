@@ -12,6 +12,7 @@ $namespaces:
 requirements:
   SubworkflowFeatureRequirement: {}
   InlineJavascriptRequirement: {}
+  StepInputExpressionRequirement: {}
 
 inputs:
   unmapped_bam:
