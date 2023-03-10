@@ -40,10 +40,10 @@ outputs:
 stderr: $(inputs.coverage_metrics.nameroot).mean_coverage.log
 
 arguments:
-  - position: 2
+  - position: 1
     valueFrom: --vanilla
-  - position: 4
+  - position: 2
     valueFrom: <
     shellQuote: false
-  - position: 5
+  - position: 3
     valueFrom: MeanCoverage.R
