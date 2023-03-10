@@ -20,7 +20,7 @@ requirements:
       - class: File
         location: MeanCoverage.R
 
-baseCommand: [R, --vanillia, MeanCoverage.R]
+baseCommand: [R, --vanilla, MeanCoverage.R]
 
 inputs:
   coverage_metrics:
