@@ -39,6 +39,7 @@ inputs:
       separate: false
   shift_back_chain:
     type: File
+    format: edam:format_3982
     inputBinding:
       position: 6
       prefix: R=

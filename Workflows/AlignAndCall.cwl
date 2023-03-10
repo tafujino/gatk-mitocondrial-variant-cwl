@@ -57,6 +57,7 @@ inputs:
       - ^.dict
   shift_back_chain:
     type: File
+    format: edam:format_3982
   m2_extra_args:
     type: string?
   m2_filter_extra_args:
