@@ -10,6 +10,7 @@ $namespaces:
 
 requirements:
   SubworkflowFeatureRequirement: {}
+  StepInputExpressionRequirement: {}
 
 inputs:
   wgs_aligned_cram:
@@ -106,14 +107,18 @@ steps:
       contig_name: contig_name
       full_reference: full_reference
       cram: wgs_aligned_cram
-      outprefix: outprefix
+      outprefix:
+        source: outprefix
+        valueFrom: $(self).chrM
     out: [subset_bam, log]
   RevertSam:
     label: RevertSam
     run: ../Tools/RevertSam.cwl
     in:
       bam: SubsetCramToChrM/subset_bam
-      outprefix: outprefix
+      outprefix:
+        source: outprefix
+        valueFrom: $(self).chrM.unmapped
     out: [unmapped_bam, log]
   AlignAndCall:
     label: AlignAndCall
@@ -132,6 +137,9 @@ steps:
       verifyBamID: verifyBamID
       max_low_het_sites: max_low_het_sites
       max_read_length: max_read_length
+      outprefix:
+        source: outprefix
+        valueFrom: $(self).chrM
     out:
       - mt_aligned_bam
       - mt_aligned_shifted_bam

@@ -55,13 +55,13 @@ outputs:
     type: File
     format: edam:format_2572
     outputBinding:
-      glob: $(inputs.outprefix).chrM.bam
+      glob: $(inputs.outprefix).bam
     secondaryFiles:
       - ^.bai
   log:
     type: stderr
 
-stderr: $(inputs.outprefix).chrM.log
+stderr: $(inputs.outprefix).log
 
 arguments:
   - position: 2
@@ -74,4 +74,4 @@ arguments:
     valueFrom: MateUnmappedAndUnmappedReadFilter
   - position: 8
     prefix: -O
-    valueFrom: $(inputs.outprefix).chrM.bam
+    valueFrom: $(inputs.outprefix).bam

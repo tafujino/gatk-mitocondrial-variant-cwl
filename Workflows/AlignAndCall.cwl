@@ -77,6 +77,8 @@ inputs:
       CollectWgsMetrics might fail, but the results are not affected by
       this number. Default is 151.
     type: int?
+  outprefix:
+    type: string
 
 steps:
   AlignToMt:
@@ -86,8 +88,8 @@ steps:
       reference: mt_reference
       unmapped_bam: unmapped_bam
       outprefix:
-        source: unmapped_bam
-        valueFrom: $(self.nameroot).alignedToMt
+        source: outprefix
+        valueFrom: $(self).alignedToMt
     out: [bam, duplicate_metrics, BWA_log, Align_log, MarkDuplicates_log, SortSam_log]
   AlignToShiftedMt:
     label: AlignToShiftedMt
@@ -96,8 +98,8 @@ steps:
       reference: mt_shifted_reference
       unmapped_bam: unmapped_bam
       outprefix:
-        source: unmapped_bam
-        valueFrom: $(self.nameroot).alignedToShiftedMt
+        source: outprefix
+        valueFrom: $(self).alignedToShiftedMt
     out: [bam, duplicate_metrics, BWA_log, Align_log, MarkDuplicates_log, SortSam_log]
   CollectWgsMetrics:
     label: CollectWgsMetrics
@@ -151,9 +153,7 @@ steps:
     in:
       shifted_back_vcf: LiftoverVcf/shifted_back_vcf
       vcf: CallMt/raw_vcf
-      outprefix:
-        source: unmapped_bam
-        valueFrom: $(self.nameroot)
+      outprefix: outprefix
     out: [merged_vcf, log]
   MergeStats:
     label: MergeStats
@@ -161,9 +161,7 @@ steps:
     in:
       shifted_stats: CallShiftedMt/stats
       non_shifted_stats: CallMt/stats
-      outprefix:
-        source: unmapped_bam
-        valueFrom: $(self.nameroot)
+      outprefix: outprefix
     out:
       [stats, log]
   InitialFilter:
@@ -183,8 +181,8 @@ steps:
         default: false
       blacklisted_sites: blacklisted_sites
       outprefix:
-        source: unmapped_bam
-        valueFrom: $(self.nameroot).initialFilter
+        source: outprefix
+        valueFrom: $(self).initialFilter
     out: [filtered_vcf, FilterMutectCalls_log, VariantFiltration_log]
   SplitMultiAllelicSites:
     label: SplitMultiAllelicSites
@@ -232,8 +230,8 @@ steps:
       verifyBamID: verifyBamID
       blacklisted_sites: blacklisted_sites
       outprefix:
-        source: unmapped_bam
-        valueFrom: $(self.nameroot).filterContamination
+        source: outprefix
+        valueFrom: $(self).filterContamination
     out: [filtered_vcf, contamination, FilterMutectCalls_log, VariantFiltration_log]
   FilterNuMTs:
     label: FilterNuMTs
@@ -243,8 +241,8 @@ steps:
       in_vcf: FilterContamination/filtered_vcf
       autosomal_coverage: autosomal_coverage
       outprefix:
-        source: unmapped_bam
-        valueFrom: $(self.nameroot).filterNuMTs
+        source: outprefix
+        valueFrom: $(self).filterNuMTs
     out: [out_vcf, log]
   FilterLowHetSites:
     label: FilterLowHetSites
@@ -254,8 +252,8 @@ steps:
       in_vcf: FilterNuMTs/out_vcf
       max_low_het_sites: max_low_het_sites
       outprefix:
-        source: unmapped_bam
-        valueFrom: $(self.nameroot).final
+        source: outprefix
+        valueFrom: $(self).final
     out: [out_vcf, log]
 
 outputs:

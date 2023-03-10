@@ -41,11 +41,11 @@ outputs:
     type: File
     format: edam:format_2572
     outputBinding:
-      glob: $(inputs.outprefix).chrM.unmapped.bam
+      glob: $(inputs.outprefix).bam
   log:
     type: stderr
 
-stderr: $(inputs.outprefix).chrM.unmapped.log
+stderr: $(inputs.outprefix).
 
 arguments:
   - position: 2
@@ -60,7 +60,7 @@ arguments:
   - position: 6
     prefix: OUTPUT=
     separate: false
-    valueFrom: $(inputs.outprefix).chrM.unmapped.bam
+    valueFrom: $(inputs.outprefix).bam
   - position: 7
     prefix: VALIDATION_STRINGENCY=
     separate: false
