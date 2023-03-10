@@ -39,6 +39,7 @@ inputs:
 outputs:
   unmapped_bam:
     type: File
+    format: edam:format_2572
     outputBinding:
       glob: $(inputs.outprefix).chrM.unmapped.bam
   log:
