@@ -46,7 +46,7 @@ outputs:
   duplicate_metrics:
     type: File
     outputBinding:
-      glob: $(outprefix).metrics
+      glob: $(inputs.outprefix).metrics
   log:
     type: stderr
 
@@ -62,7 +62,7 @@ arguments:
   - position: 5
     prefix: METRICS_FILE=
     separate: false
-    valueFrom: $(outprefix).metrics
+    valueFrom: $(inputs.outprefix).metrics
   - position: 6
     prefix: VALIDATION_STRINGENCY=
     separate: false
