@@ -13,6 +13,7 @@ hints:
     dockerPull: us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.2-1552931386
 
 requirements:
+  ShellCommandRequirement: {}
   InitialWorkDirRequirement:
     listing:
       - entryname: metrics.txt
@@ -20,7 +21,7 @@ requirements:
       - class: File
         location: MeanCoverage.R
 
-baseCommand: [R, --vanilla, MeanCoverage.R]
+baseCommand: [R]
 
 inputs:
   coverage_metrics:
@@ -37,3 +38,12 @@ outputs:
     type: stderr
 
 stderr: $(inputs.coverage_metrics.nameroot).mean_coverage.log
+
+arguments:
+  - position: 2
+    valueFrom: --vanilla
+  - position: 4
+    valueFrom: <
+    shellQuote: false
+  - position: 5
+    valueFrom: MeanCoverage.R
