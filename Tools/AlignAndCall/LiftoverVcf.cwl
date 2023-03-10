@@ -51,10 +51,12 @@ inputs:
 outputs:
   shifted_back_vcf:
     type: File
+    format: edam:format_3016
     outputBinding:
       glob: $(inputs.shifted_vcf.nameroot).shifted_back.vcf
   rejected_vcf:
     type: File
+    format: edam:format_3016
     outputBinding:
       glob: $(inputs.shifted_vcf.nameroot).rejected.vcf
   log:
