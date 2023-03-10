@@ -124,7 +124,7 @@ steps:
       bam: AlignToMt/bam
       m2_extra_args:
         source: m2_extra_args
-        valueFrom: $([self.m2_extra_args, "-L chrM:576-16024"].filter(Boolean).join(" "))
+        valueFrom: $([self, "-L chrM:576-16024"].filter(Boolean).join(" "))
     out: [raw_vcf, stats, log]
   CallShiftedMt:
     label: CallShiftedMt
@@ -135,7 +135,7 @@ steps:
       bam: AlignToShiftedMt/bam
       m2_extra_args:
         source: m2_extra_args
-        valueFrom: $([self.m2_extra_args, "-L chrM:8025-9144"].filter(Boolean).join(" "))
+        valueFrom: $([self, "-L chrM:8025-9144"].filter(Boolean).join(" "))
     out: [raw_vcf, stats, log]
   LiftoverVcf:
     label: LiftoverVcf
@@ -153,7 +153,7 @@ steps:
       vcf: CallMt/raw_vcf
       outprefix:
         source: unmapped_bam
-        valueFrom: $(self.unmapped_bam.nameroot)
+        valueFrom: $(self.nameroot)
     out: [merged_vcf, log]
   MergeStats:
     label: MergeStats
@@ -163,7 +163,7 @@ steps:
       non_shifted_stats: CallMt/stats
       outprefix:
         source: unmapped_bam
-        valueFrom: $(self.unmapped_bam.nameroot)
+        valueFrom: $(self.nameroot)
     out:
       [stats, log]
   InitialFilter:
@@ -184,7 +184,7 @@ steps:
       blacklisted_sites: blacklisted_sites
       outprefix:
         source: unmapped_bam
-        valueFrom: $(self.unmapped_bam.nameroot).initialFilter
+        valueFrom: $(self.nameroot).initialFilter
     out: [filtered_vcf, FilterMutectCalls_log, VariantFiltration_log]
   SplitMultiAllelicSites:
     label: SplitMultiAllelicSites
@@ -233,7 +233,7 @@ steps:
       blacklisted_sites: blacklisted_sites
       outprefix:
         source: unmapped_bam
-        valueFrom: $(self.unmapped_bam.nameroot).filterContamination
+        valueFrom: $(self.nameroot).filterContamination
     out: [filtered_vcf, contamination, FilterMutectCalls_log, VariantFiltration_log]
   FilterNuMTs:
     label: FilterNuMTs
@@ -244,7 +244,7 @@ steps:
       autosomal_coverage: autosomal_coverage
       outprefix:
         source: unmapped_bam
-        valueFrom: $(self.unmapped_bam.nameroot).filterNuMTs
+        valueFrom: $(self.nameroot).filterNuMTs
     out: [out_vcf, log]
   FilterLowHetSites:
     label: FilterLowHetSites
@@ -255,7 +255,7 @@ steps:
       max_low_het_sites: max_low_het_sites
       outprefix:
         source: unmapped_bam
-        valueFrom: $(self.unmapped_bam.nameroot).final
+        valueFrom: $(self.nameroot).final
     out: [out_vcf, log]
 
 outputs:
