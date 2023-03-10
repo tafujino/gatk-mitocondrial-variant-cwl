@@ -144,7 +144,7 @@ steps:
       shifted_vcf: CallShiftedMt/raw_vcf
       reference: mt_reference
       shift_back_chain: shift_back_chain
-    out: [shifted_back_vcf, rejected_vcf, log]
+    out: [shifted_back_vcf, log]
   MergeVcfs:
     label: MergeVcfs
     run: ../Tools/AlignAndCall/MergeVcfs.cwl
