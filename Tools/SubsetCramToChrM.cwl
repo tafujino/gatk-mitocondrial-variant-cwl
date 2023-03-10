@@ -57,7 +57,7 @@ outputs:
     outputBinding:
       glob: $(inputs.outprefix).chrM.bam
     secondaryFiles:
-      - .bai
+      - ^.bai
   log:
     type: stderr
 

@@ -263,12 +263,12 @@ outputs:
     type: File
     outputSource: AlignToMt/bam
     secondaryFiles:
-      - .bai
+      - ^.bai
   mt_aligned_shifted_bam:
     type: File
     outputSource: AlignToShiftedMt/bam
     secondaryFiles:
-      - .bai
+      - ^.bai
   out_vcf:
     type: File
     outputSource: FilterLowHetSites/out_vcf

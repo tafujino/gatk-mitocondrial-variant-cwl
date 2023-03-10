@@ -37,7 +37,7 @@ inputs:
     type: File
     format: edam:format_2572
     secondaryFiles:
-      - .bai
+      - ^.bai
     inputBinding:
       position: 2
       prefix: -I=

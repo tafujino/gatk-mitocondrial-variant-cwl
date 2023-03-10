@@ -41,7 +41,7 @@ outputs:
     outputBinding:
       glob: $(inputs.outprefix).bam
     secondaryFiles:
-      - .bai
+      - ^.bai
   log:
     type: stderr
 

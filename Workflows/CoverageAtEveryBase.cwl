@@ -13,12 +13,12 @@ inputs:
     type: File
     format: edam:format_2572
     secondaryFiles:
-      - .bai
+      - ^.bai
   input_bam_shifted_ref:
     type: File
     format: edam:format_2572
     secondaryFiles:
-      - .bai
+      - ^.bai
   shift_back_chain:
     type: File
     format: edam:format_3982

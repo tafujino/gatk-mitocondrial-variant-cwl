@@ -57,7 +57,7 @@ outputs:
     type: File
     outputSource: SortSam/out_bam
     secondaryFiles:
-      - .bai
+      - ^.bai
   duplicate_metrics:
     type: File
     outputSource: MarkDuplicates/duplicate_metrics
