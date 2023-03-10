@@ -35,7 +35,7 @@ stderr: $(inputs.in_vcf.nameroot).passOnly.log
 
 arguments:
   - position: 1
-    valueFrom: CollectWgsMetrics
+    valueFrom: SelectVariants
   - position: 3
     prefix: -O
     valueFrom: $(inputs.in_vcf.nameroot).passOnly.vcf
