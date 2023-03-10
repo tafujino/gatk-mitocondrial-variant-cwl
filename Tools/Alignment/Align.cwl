@@ -15,15 +15,15 @@ hints:
 requirements:
   EnvVarRequirement:
     envDef:
-      BWA_VERSION: 0.7.15-r1140
-      REF_FASTA: $(inputs.reference)
-      INPUT_BAM: $(inputs.unmapped_bam)
-      BWA_COMMANDLINE: $("bwa mem -K 100000000 -p -v 3 -t 2 -Y " + inputs.reference)
       OUTPUT_BAM_BASENAME: $(inputs.outprefix)
   InitialWorkDirRequirement:
     listing:
       - class: File
         location: Align.sh
+      - entry: $(inputs.reference)
+        entryname: reference.fa
+      - entry: $(inputs.unmapped_bam)
+        entryname: unmapped.bam
 
 baseCommand: [/bin/bash, Align.sh]
 
