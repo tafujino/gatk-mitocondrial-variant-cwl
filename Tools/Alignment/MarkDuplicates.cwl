@@ -12,7 +12,7 @@ hints:
   - class: DockerRequirement
     dockerPull: us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.2-1552931386
 
-baseCommand: [java, -jar, /usr/gitc/picard.jar]
+baseCommand: [java]
 
 inputs:
   java_options:
@@ -25,13 +25,13 @@ inputs:
     type: File
     format: edam:format_2572
     inputBinding:
-      position: 3
+      position: 4
       prefix: INPUT=
       separate: false
   read_name_regex:
     type: string?
     inputBinding:
-      position: 7
+      position: 8
       prefix: READ_NAME_REGEX=
       separate: false
   outprefix:
@@ -54,32 +54,35 @@ stderr: $(inputs.outprefix).MarkDuplicates.log
 
 arguments:
   - position: 2
+    prefix: -jar
+    valueFrom: /usr/gitc/picard.jar
+  - position: 3
     valueFrom: MarkDuplicates
-  - position: 4
+  - position: 5
     prefix: OUTPUT=
     separate: false
     valueFrom: md.bam
-  - position: 5
+  - position: 6
     prefix: METRICS_FILE=
     separate: false
     valueFrom: $(inputs.outprefix).metrics
-  - position: 6
+  - position: 7
     prefix: VALIDATION_STRINGENCY=
     separate: false
     valueFrom: SILENT
-  - position: 8
+  - position: 9
     prefix: OPTICAL_DUPLICATE_PIXEL_DISTANCE=
     separate: false
     valueFrom: "2500"
-  - position: 9
+  - position: 10
     prefix: ASSUME_SORT_ORDER=
     separate: false
     valueFrom: queryname
-  - position: 10
+  - position: 11
     prefix: CLEAR_DT
     separate: false
     valueFrom: "false"
-  - position: 11
+  - position: 12
     prefix: ADD_PG_TAG_TO_READS
     separate: false
     valueFrom: "false"
