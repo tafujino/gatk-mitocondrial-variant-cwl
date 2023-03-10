@@ -18,7 +18,7 @@ requirements:
       BWA_VERSION: 0.7.15-r1140
       REF_FASTA: $(inputs.reference)
       INPUT_BAM: $(inputs.unmapped_bam)
-      BWA_COMMANDLINE: $("bwa mem -K 100000000 -p -v 3 -t 2 -Y " + $(inputs.reference)) # need InlineJavascriptRequirement ?
+      BWA_COMMANDLINE: $("bwa mem -K 100000000 -p -v 3 -t 2 -Y " + inputs.reference)
       OUTPUT_BAM_BASENAME: $(inputs.outprefix)
   InitialWorkDirRequirement:
     listing:
