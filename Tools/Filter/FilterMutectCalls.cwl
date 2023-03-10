@@ -76,6 +76,7 @@ inputs:
 outputs:
   filtered_vcf:
     type: File
+    format: edam:format_3016
     outputBinding:
       glob: $(inputs.raw_vcf.nameroot).filtered.vcf
     secondaryFiles:
