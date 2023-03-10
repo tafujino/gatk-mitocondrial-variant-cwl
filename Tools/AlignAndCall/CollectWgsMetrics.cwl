@@ -32,7 +32,7 @@ inputs:
     inputBinding:
       position: 4
       prefix: INPUT=
-      shellQuote: false
+      separate: false
   reference:
     type: File
     format: edam:format_1929
@@ -41,20 +41,20 @@ inputs:
     inputBinding:
       position: 6
       prefix: REFERENCE_SEQUENCE=
-      shellQuote: false
+      separate: false
   read_length:
     type: int?
     inputBinding:
       position: 9
       prefix: READ_LENGTH=
-      shellQuote: false
+      separate: false
     default: 151
   coverage_cap:
     type: int?
     inputBinding:
       position: 10
       prefix: COVERAGE_CAP=
-      shellQuote: false
+      separate: false
 
 outputs:
   coverage_metrics:
