@@ -45,7 +45,7 @@ outputs:
   log:
     type: stderr
 
-stderr: $(inputs.outprefix).
+stderr: $(inputs.outprefix).log
 
 arguments:
   - position: 2
