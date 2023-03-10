@@ -83,7 +83,7 @@ outputs:
   log:
     type: stderr
 
-stderr: $(inputs.outprefix).chrM.unmapped.log
+stderr: $(inputs.raw_vcf.nameroot).filtered.log
 
 arguments:
   - position: 2
