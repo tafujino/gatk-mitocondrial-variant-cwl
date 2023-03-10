@@ -43,6 +43,7 @@ inputs:
 outputs:
   merged_vcf:
     type: File
+    format: edam:format_3016
     outputBinding:
       glob: S(inputs.outprefix).merged.vcf
     secondaryFiles:
