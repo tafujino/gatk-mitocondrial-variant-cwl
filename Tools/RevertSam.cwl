@@ -15,7 +15,7 @@ hints:
 requirements:
   ShellCommandRequirement: {}
 
-baseCommand: [java, -jar, /usr/gitc/picard.jar]
+baseCommand: [java]
 
 inputs:
   java_options:
@@ -30,7 +30,7 @@ inputs:
     secondaryFiles:
       - .bai
     inputBinding:
-      position: 3
+      position: 4
       prefix: INPUT=
       separate: false
   outprefix:
@@ -48,32 +48,35 @@ stderr: $(inputs.outprefix).chrM.unmapped.log
 
 arguments:
   - position: 2
+    prefix: -jar
+    valueFrom: /usr/gitc/picard.jar
+  - position: 3
     valueFrom: RevertSam
-  - position: 4
+  - position: 5
     prefix: OUTPUT_BY_READGROUP=
     separate: false
     valueFrom: "false"
-  - position: 5
+  - position: 6
     prefix: OUTPUT=
     separate: false
     valueFrom: $(inputs.outprefix).chrM.unmapped.bam
-  - position: 6
+  - position: 7
     prefix: VALIDATION_STRINGENCY=
     separate: false
     valueFrom: LENIENT
-  - position: 7
-    prefix: ATTRIBUTE_TO_CLEAR=
-    separate: false
-    valueFrom: FT
   - position: 8
     prefix: ATTRIBUTE_TO_CLEAR=
     separate: false
-    valueFrom: CO
+    valueFrom: FT
   - position: 9
+    prefix: ATTRIBUTE_TO_CLEAR=
+    separate: false
+    valueFrom: CO
+  - position: 10
     prefix: SORT_ORDER=
     separate: false
     valueFrom: queryname
-  - position: 10
+  - position: 11
     prefix: RESTORE_ORIGINAL_QUALITIES=
     separate: false
     valueFrom: "false"
