@@ -45,22 +45,22 @@ inputs:
     format: edam:format_3982
     inputBinding:
       position: 7
-      prefix: R=
+      prefix: CHAIN=
       separate: false
 
 outputs:
   shifted_back_vcf:
     type: File
     outputBinding:
-      glob: S(inputs.shifted_vcf.nameroot).shifted_back.vcf
+      glob: $(inputs.shifted_vcf.nameroot).shifted_back.vcf
   rejected_vcf:
     type: File
     outputBinding:
-      glob: S(inputs.shifted_vcf.nameroot).rejected.vcf
+      glob: $(inputs.shifted_vcf.nameroot).rejected.vcf
   log:
     type: stderr
 
-stderr: S(inputs.shifted_vcf.nameroot).shifted_back.log
+stderr: $(inputs.shifted_vcf.nameroot).shifted_back.log
 
 arguments:
   - position: 2
@@ -71,8 +71,8 @@ arguments:
   - position: 5
     prefix: O=
     separate: false
-    valueFrom: S(inputs.shifted_vcf.nameroot).shifted_back.vcf
+    valueFrom: $(inputs.shifted_vcf.nameroot).shifted_back.vcf
   - position: 8
-    prefix: REFECT=
+    prefix: REJECT=
     separate: false
-    valueFrom: S(inputs.shifted_vcf.nameroot).rejected.vcf
+    valueFrom: $(inputs.shifted_vcf.nameroot).rejected.vcf
