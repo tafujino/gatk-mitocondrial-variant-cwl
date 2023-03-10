@@ -79,10 +79,10 @@ arguments:
     separate: false
     valueFrom: queryname
   - position: 11
-    prefix: CLEAR_DT
+    prefix: CLEAR_DT=
     separate: false
     valueFrom: "false"
   - position: 12
-    prefix: ADD_PG_TAG_TO_READS
+    prefix: ADD_PG_TAG_TO_READS=
     separate: false
     valueFrom: "false"
