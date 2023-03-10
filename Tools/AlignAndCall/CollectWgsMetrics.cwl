@@ -12,6 +12,9 @@ hints:
   - class: DockerRequirement
     dockerPull: us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.2-1552931386
 
+requirements:
+  ShellCommandRequirement: {}
+
 baseCommand: [java]
 
 inputs:

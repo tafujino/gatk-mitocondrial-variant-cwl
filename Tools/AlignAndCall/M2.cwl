@@ -12,6 +12,9 @@ hints:
   - class: DockerRequirement
     dockerPull: broadinstitute/gatk:4.2.4.0
 
+requirements:
+  ShellCommandRequirement: {}
+
 # NOTE:
 #
 # 1. In the original WDL implementation, there exists `make_bamout` input parameter.
