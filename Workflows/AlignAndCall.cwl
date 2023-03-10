@@ -87,7 +87,7 @@ steps:
       unmapped_bam: unmapped_bam
       outprefix:
         source: unmapped_bam
-        valueFrom: $(self.unmapped_bam.nameroot).alignedToMt
+        valueFrom: $(self.nameroot).alignedToMt
     out: [bam, duplicate_metrics, BWA_log, Align_log, MarkDuplicates_log, SortSam_log]
   AlignToShiftedMt:
     label: AlignToShiftedMt
@@ -97,7 +97,7 @@ steps:
       unmapped_bam: unmapped_bam
       outprefix:
         source: unmapped_bam
-        valueFrom: $(self.unmapped_bam.nameroot).alignedToShiftedMt
+        valueFrom: $(self.nameroot).alignedToShiftedMt
     out: [bam, duplicate_metrics, BWA_log, Align_log, MarkDuplicates_log, SortSam_log]
   CollectWgsMetrics:
     label: CollectWgsMetrics
