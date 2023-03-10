@@ -12,7 +12,7 @@ hints:
   - class: DockerRequirement
     dockerPull: us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.2-1552931386
 
-baseCommand: [java, -jar, /usr/gitc/picard.jar]
+baseCommand: [java]
 
 inputs:
   java_options:
@@ -25,7 +25,7 @@ inputs:
     type: File
     format: edam:format_2572
     inputBinding:
-      position: 3
+      position: 4
       prefix: INPUT=
       separate: false
   outprefix:
@@ -46,20 +46,23 @@ stderr: $(inputs.outprefix).SortSam.log
 
 arguments:
   - position: 2
+    prefix: -jar
+    valueFrom: /usr/gitc/picard.jar
+  - position: 3
     valueFrom: SortSam
-  - position: 4
+  - position: 5
     prefix: OUTPUT=
     separate: false
     valueFrom: $(inputs.outprefix).bam
-  - position: 5
+  - position: 6
     prefix: SORT_ORDER=
     separate: false
     valueFrom: coordinate
-  - position: 6
+  - position: 7
     prefix: CREATE_INDEX=
     separate: false
     valueFrom: "true"
-  - position: 7
+  - position: 8
     prefix: MAX_RECORDS_IN_RAM=
     separate: false
     valueFrom: "300000"
