@@ -52,11 +52,11 @@ outputs:
     type: File
     format: edam:format_3475
     outputBinding:
-      glob: $(input.outprefix).tsv
+      glob: $(inputs.outprefix).tsv
   metrics:
     type: File
     outputBinding:
-      glob: $(input.outprefix).metrics
+      glob: $(inputs.outprefix).metrics
   log:
     type: stderr
 
@@ -68,19 +68,19 @@ arguments:
   - position: 4
     prefix: PER_BASE_COVERAGE=
     separate: false
-    valueFrom: $(input.outprefix).tsv
+    valueFrom: $(inputs.outprefix).tsv
   - position: 5
     prefix: O=
     separate: false
-    valueFrom: $(input.outprefix).metrics
+    valueFrom: $(inputs.outprefix).metrics
   - position: 6
     prefix: TI=
     separate: false
-    valueFrom: $(input.interval_list)
+    valueFrom: $(inputs.interval_list)
   - position: 7
     prefix: BI=
     separate: false
-    valueFrom: $(input.interval_list)
+    valueFrom: $(inputs.interval_list)
   - position: 8
     prefix: COVMAX=
     separate: false
