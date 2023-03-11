@@ -22,7 +22,7 @@ requirements:
       - class: File
         location: CombineTable.R
 
-baseCommand: [R, --vanilla, CombineTable.sh]
+baseCommand: [Rscript, --vanilla, CombineTable.R]
 
 inputs:
   non_control_region:
