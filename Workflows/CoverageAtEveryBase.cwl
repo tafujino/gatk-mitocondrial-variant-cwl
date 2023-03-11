@@ -64,7 +64,7 @@ steps:
       interval_list: non_control_region_interval_list
       outprefix:
         source: outprefix
-        valueFrom: $(self.outprefix).non_control_region
+        valueFrom: $(self).non_control_region
     out: [per_base_coverage, log]
   CollectHsMetricsControlRegionShifted:
     label: CollectHsMetricsControlRegion
@@ -75,7 +75,7 @@ steps:
       interval_list: control_region_shifted_reference_interval_list
       outprefix:
         source: outprefix
-        valueFrom: $(self.outprefix).control_region_shifted
+        valueFrom: $(self).control_region_shifted
     out: [per_base_coverage, log]
   CombineTable:
     label: CombineTable
