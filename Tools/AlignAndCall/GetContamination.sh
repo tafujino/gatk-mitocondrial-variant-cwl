@@ -1,8 +1,7 @@
 #!/bin/bash
 
 set -e
-PARENT_DIR="$(dirname "${VCF}")"
-java -jar /usr/mtdnaserver/haplocheckCLI.jar "${PARENT_DIR}"
+java -jar /usr/mtdnaserver/haplocheckCLI.jar .
 
 sed 's/\"//g' output > output-noquotes
 

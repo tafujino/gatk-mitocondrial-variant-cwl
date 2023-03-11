@@ -14,13 +14,12 @@ hints:
 
 requirements:
   InlineJavascriptRequirement: {}
-  EnvVarRequirement:
-    envDef:
-      VCF: $(inputs.vcf.basename)
   InitialWorkDirRequirement:
     listing:
       - class: File
         location: GetContamination.sh
+      - entryname: input.vcf
+        entry: $(inputs.vcf)
 
 baseCommand: [/bin/bash, GetContamination.sh]
 
