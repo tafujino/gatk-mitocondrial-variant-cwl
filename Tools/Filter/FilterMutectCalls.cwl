@@ -72,25 +72,27 @@ inputs:
     inputBinding:
       position: 12
       prefix: --contamination-estimate
+  outprefix:
+    type: string
 
 outputs:
   filtered_vcf:
     type: File
     format: edam:format_3016
     outputBinding:
-      glob: $(inputs.raw_vcf.nameroot).filtered.vcf
+      glob: $(inputs.outprefix).vcf
     secondaryFiles:
       - .idx
   log:
     type: stderr
 
-stderr: $(inputs.raw_vcf.nameroot).filtered.log
+stderr: $(inputs.outprefix).log
 
 arguments:
   - position: 2
     valueFrom: FilterMutectCalls
   - position: 5
     prefix: -O
-    valueFrom: $(inputs.raw_vcf.nameroot).filtered.vcf
+    valueFrom: $(inputs.outprefix).vcf
   - position: 9
     valueFrom: --mitochondria-mode

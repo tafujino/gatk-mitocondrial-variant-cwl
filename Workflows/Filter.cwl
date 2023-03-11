@@ -9,7 +9,7 @@ $namespaces:
   edam: http://edamontology.org/
 
 requirements:
-  InlineJavascriptRequirement: {}
+  StepInputExpressionRequirement: {}
 
 inputs:
   reference:
@@ -79,6 +79,7 @@ steps:
       vaf_filter_threshold: vaf_filter_threshold
       f_score_beta: f_score_beta
       max_contamination: CalcContamination/max_contamination
+      outprefix: outprefix
     out: [filtered_vcf, log]
   VariantFiltration:
     label: VariantFiltration
@@ -86,7 +87,9 @@ steps:
     in:
       in_vcf: FilterMutectCalls/filtered_vcf
       blacklisted_sites: blacklisted_sites
-      outprefix: outprefix
+      outprefix:
+        source: outprefix
+        valueFrom: $(self).hard
     out: [out_vcf, log]
 
 outputs:
