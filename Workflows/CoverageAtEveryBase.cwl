@@ -52,7 +52,7 @@ inputs:
       - .sa
       - ^.dict
   outprefix:
-    string
+    type: string
 
 steps:
   CollectHsMetricsNonControlRegion:
