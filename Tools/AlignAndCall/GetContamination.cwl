@@ -72,4 +72,4 @@ outputs:
   log:
     type: stderr
 
-stderr: $(inputs.outprefix).GetContamination.log
+stderr: $(inputs.vcf.nameroot).contamination_metrics.log
