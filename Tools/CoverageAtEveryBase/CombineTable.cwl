@@ -17,7 +17,7 @@ requirements:
     listing:
       - entry: $(inputs.non_control_region)
         entryname: non_control_region.tsv
-      - entry: $(inputs.contron_region_shifted)
+      - entry: $(inputs.control_region_shifted)
         entryname: control_region_shifted.tsv
       - class: File
         location: CombineTable.R
@@ -40,8 +40,8 @@ outputs:
     format: edam:format_3475
     outputBinding:
       glob: per_base_coverage.tsv
-      outputEval: ${self[0].basename = input.outprefix + '.per_base_coverage.tsv'; return self;}
+      outputEval: ${self[0].basename = inputs.outprefix + '.per_base_coverage.tsv'; return self;}
   log:
     type: stderr
 
-stderr: $(input.outprefix).per_base_coverage.log
+stderr: $(inputs.outprefix).per_base_coverage.log
