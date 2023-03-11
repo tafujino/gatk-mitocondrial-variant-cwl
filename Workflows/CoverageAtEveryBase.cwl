@@ -8,6 +8,9 @@ cwlVersion: v1.1
 $namespaces:
   edam: http://edamontology.org/
 
+requirements:
+  InlineJavascriptRequirement: {}
+
 inputs:
   input_bam_regular_ref:
     type: File
