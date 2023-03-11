@@ -42,31 +42,31 @@ outputs:
     outputBinding:
       glob: contamination.txt
       loadContents: true
-      outputEval: $(self[0].contents)
+      outputEval: $(self[0].contents.trim())
   major_hg:
     type: string
     outputBinding:
       glob: major_hg.txt
       loadContents: true
-      outputEval: $(self[0].contents)
+      outputEval: $(self[0].contents.trim())
   minor_hg:
     type: string
     outputBinding:
       glob: minor_hg.txt
       loadContents: true
-      outputEval: $(self[0].contents)
+      outputEval: $(self[0].contents.trim())
   major_level:
     type: float
     outputBinding:
       glob: mean_het_major.txt
       loadContents: true
-      outputEval: $(parseFloat(self[0].contents))
+      outputEval: $(parseFloat(self[0].contents.trim()))
   minor_level:
     type: float
     outputBinding:
       glob: mean_het_minor.txt
       loadContents: true
-      outputEval: $(parseFloat(self[0].contents))
+      outputEval: $(parseFloat(self[0].contents.trim()))
   log:
     type: stderr
 
