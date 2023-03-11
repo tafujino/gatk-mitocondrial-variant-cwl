@@ -18,8 +18,7 @@ requirements:
     listing:
       - class: File
         location: GetContamination.sh
-      - entryname: input.vcf
-        entry: $(inputs.vcf)
+      - $(inputs.vcf)
 
 baseCommand: [/bin/bash, GetContamination.sh]
 
