@@ -31,7 +31,7 @@ inputs:
       - ^.dict
     inputBinding:
       position: 3
-      prefix: -R=
+      prefix: R=
       separate: false
   bam:
     type: File
@@ -40,7 +40,7 @@ inputs:
       - ^.bai
     inputBinding:
       position: 2
-      prefix: -I=
+      prefix: I=
       separate: false
   interval_list:
     type: File
